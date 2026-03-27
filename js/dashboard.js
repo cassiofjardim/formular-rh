@@ -630,8 +630,8 @@ async function aprovarCadastro() {
     try {
         const response = await fetch(CONFIG.APPS_SCRIPT_URL, {
             method: 'POST',
-            mode: 'no-cors',
             headers: { 'Content-Type': 'text/plain' },
+            redirect: 'follow',
             body: JSON.stringify({
                 action: 'aprovarCadastro',
                 row: cad._row,
@@ -641,14 +641,24 @@ async function aprovarCadastro() {
             })
         });
 
+        let msg = 'Cadastro aprovado! Email enviado para ' + emailDestino;
+        try {
+            const result = await response.json();
+            console.log('Resposta Apps Script:', result);
+            if (result.message) msg = result.message;
+        } catch (e) {
+            console.log('Sem JSON na resposta:', e);
+        }
+
         cad.status = 'Aprovado';
         const origIdx = cadastros.findIndex(c => c._row === cad._row);
         if (origIdx !== -1) cadastros[origIdx].status = 'Aprovado';
 
         openDetail(selectedIndex);
         renderCards();
-        alert('Cadastro aprovado! Email com documentos enviado para ' + emailDestino);
+        alert(msg);
     } catch (error) {
+        console.error('Erro completo:', error);
         alert('Erro ao aprovar: ' + error.message);
         btnAprovar.innerHTML = textoOriginal;
         btnAprovar.disabled = false;
