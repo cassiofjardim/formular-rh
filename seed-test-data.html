@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Seed Test Data</title>
+    <style>
+        body { font-family: 'Inter', sans-serif; padding: 40px; background: #f5f5f5; }
+        .log { background: #1a1a2e; color: #0f0; padding: 20px; border-radius: 8px; font-family: monospace; font-size: 13px; max-height: 500px; overflow-y: auto; white-space: pre-wrap; }
+        button { padding: 14px 28px; font-size: 16px; background: #1B2A4A; color: #fff; border: none; border-radius: 8px; cursor: pointer; margin-bottom: 20px; }
+        button:hover { background: #2a3f6b; }
+        button:disabled { opacity: 0.5; cursor: not-allowed; }
+        h1 { color: #1B2A4A; }
+    </style>
+</head>
+<body>
+    <h1>Seed - Dados Fictícios para Teste</h1>
+    <p>Clique no botão para enviar <strong>20 cadastros</strong> fictícios distribuídos entre Rigarr1-5.</p>
+    <button id="btnSeed" onclick="seedData()">Enviar 20 Cadastros de Teste</button>
+    <div id="log" class="log">Aguardando...</div>
+
+    <script>
+        const URL = 'https://script.google.com/macros/s/AKfycbxDyU5BYL1mS3tLEQpH6hXZDd5JL4TD9xobrzsWV0YzjbzoYQ3vFZFzsR85EUYkbKl_/exec';
+
+        const logEl = document.getElementById('log');
+        function log(msg) {
+            logEl.textContent += '\n' + msg;
+            logEl.scrollTop = logEl.scrollHeight;
+        }
+
+        const FAKE_PNG_BASE64 = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
+        const FAKE_PDF_BASE64 = 'JVBERi0xLjQKMSAwIG9iago8PCAvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFIgPj4KZW5kb2JqCjIgMCBvYmoKPDwgL1R5cGUgL1BhZ2VzIC9LaWRzIFszIDAgUl0gL0NvdW50IDEgPj4KZW5kb2JqCjMgMCBvYmoKPDwgL1R5cGUgL1BhZ2UgL1BhcmVudCAyIDAgUiAvTWVkaWFCb3ggWzAgMCA2MTIgNzkyXSA+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMCA2NTUzNSBmIAowMDAwMDAwMDA5IDAwMDAwIG4gCjAwMDAwMDAwNTggMDAwMDAgbiAKMDAwMDAwMDExNSAwMDAwMCBuIAp0cmFpbGVyCjw8IC9TaXplIDQgL1Jvb3QgMSAwIFIgPj4Kc3RhcnR4cmVmCjIwNgolJUVPRg==';
+
+        function fakeFile(name, type) {
+            return { name, type, size: 1024, data: type === 'application/pdf' ? FAKE_PDF_BASE64 : FAKE_PNG_BASE64 };
+        }
+
+        const empresas = ['Rigarr1', 'Rigarr2', 'Rigarr3', 'Rigarr4', 'Rigarr5'];
+        const sexos = ['Masculino', 'Feminino'];
+        const estadosCivis = ['Solteiro(a)', 'Casado(a)', 'União estável', 'Divorciado(a)'];
+        const escolaridades = ['Ensino Fundamental Completo', 'Ensino Médio Completo', 'Ensino Técnico', 'Ensino Superior Completo', 'Pós-Graduação'];
+
+        const testCadastros = [
+            // ===== RIGARR1 (4 pessoas) =====
+            {
+                empresa: 'Rigarr1', nomeCompleto: 'Carlos Eduardo Silva', telefone: '(11) 98765-4321',
+                dataNascimento: '1990-05-15', sexo: 'Masculino', estadoCivil: 'Casado(a)',
+                nomePai: 'José Roberto Silva', nomeMae: 'Maria Aparecida Silva',
+                rg: '34.567.890-1', cpf: '123.456.789-00', motorista: 'Sim', pis: '123.45678.90-1',
+                emailColaborador: 'carlos.silva@gmail.com', endereco: 'Rua das Palmeiras, 450, Apto 12',
+                bairro: 'Jardim Paulista', cidadeEstado: 'São Paulo/SP', escolaridade: 'Ensino Superior Completo',
+                contaItau: 'Sim', filhos: 'Sim', documentoEtnia: 'Sim', valeTransporte: 'Sim', declaracao: 'Sim'
+            },
+            {
+                empresa: 'Rigarr1', nomeCompleto: 'Fernanda Rodrigues Lima', telefone: '(11) 97654-8899',
+                dataNascimento: '1993-08-22', sexo: 'Feminino', estadoCivil: 'Solteiro(a)',
+                nomePai: 'Marcos Rodrigues', nomeMae: 'Cláudia Lima Rodrigues',
+                rg: '11.222.333-4', cpf: '111.222.333-44', motorista: 'Não', pis: '111.22233.34-5',
+                emailColaborador: 'fernanda.lima@gmail.com', endereco: 'Rua Augusta, 1500',
+                bairro: 'Consolação', cidadeEstado: 'São Paulo/SP', escolaridade: 'Pós-Graduação',
+                contaItau: 'Sim', filhos: 'Não', documentoEtnia: 'Não', valeTransporte: 'Sim', declaracao: 'Sim'
+            },
+            {
+                empresa: 'Rigarr1', nomeCompleto: 'Ricardo Alves Pereira', telefone: '(11) 96543-2100',
+                dataNascimento: '1987-01-10', sexo: 'Masculino', estadoCivil: 'Divorciado(a)',
+                nomePai: 'Pedro Alves Pereira', nomeMae: 'Sônia Maria Alves',
+                rg: '22.333.444-5', cpf: '222.333.444-55', motorista: 'Sim', pis: '222.33344.45-6',
+                emailColaborador: 'ricardo.pereira@hotmail.com', endereco: 'Av. Paulista, 900, Cj 45',
+                bairro: 'Bela Vista', cidadeEstado: 'São Paulo/SP', escolaridade: 'Ensino Médio Completo',
+                contaItau: 'Não', filhos: 'Sim', documentoEtnia: 'Sim', valeTransporte: 'Não', declaracao: 'Sim'
+            },
+            {
+                empresa: 'Rigarr1', nomeCompleto: 'Patrícia Souza Nunes', telefone: '(11) 95432-1098',
+                dataNascimento: '1996-11-28', sexo: 'Feminino', estadoCivil: 'Casado(a)',
+                nomePai: 'Luiz Souza', nomeMae: 'Helena Nunes Souza',
+                rg: '33.444.555-6', cpf: '333.444.555-66', motorista: 'Não', pis: '333.44455.56-7',
+                emailColaborador: 'patricia.nunes@yahoo.com', endereco: 'Rua Oscar Freire, 200',
+                bairro: 'Pinheiros', cidadeEstado: 'São Paulo/SP', escolaridade: 'Ensino Superior Completo',
+                contaItau: 'Sim', filhos: 'Não', documentoEtnia: 'Não', valeTransporte: 'Sim', declaracao: 'Sim'
+            },
+
+            // ===== RIGARR2 (4 pessoas) =====
+            {
+                empresa: 'Rigarr2', nomeCompleto: 'Ana Paula Oliveira', telefone: '(21) 99876-5432',
+                dataNascimento: '1988-11-22', sexo: 'Feminino', estadoCivil: 'Solteiro(a)',
+                nomePai: 'Fernando Oliveira', nomeMae: 'Regina Célia Oliveira',
+                rg: '44.555.666-7', cpf: '987.654.321-00', motorista: 'Não', pis: '987.65432.10-2',
+                emailColaborador: 'ana.oliveira@hotmail.com', endereco: 'Av. Brasil, 1200, Bloco B',
+                bairro: 'Centro', cidadeEstado: 'Rio de Janeiro/RJ', escolaridade: 'Ensino Médio Completo',
+                contaItau: 'Não', filhos: 'Não', documentoEtnia: 'Não', valeTransporte: 'Sim', declaracao: 'Sim'
+            },
+            {
+                empresa: 'Rigarr2', nomeCompleto: 'Diego Martins Costa', telefone: '(21) 98765-1234',
+                dataNascimento: '1991-04-17', sexo: 'Masculino', estadoCivil: 'Casado(a)',
+                nomePai: 'Gilberto Martins', nomeMae: 'Rosana Costa Martins',
+                rg: '55.666.777-8', cpf: '444.555.666-77', motorista: 'Sim', pis: '444.55566.67-8',
+                emailColaborador: 'diego.costa@gmail.com', endereco: 'Rua Copacabana, 350, Apto 8',
+                bairro: 'Copacabana', cidadeEstado: 'Rio de Janeiro/RJ', escolaridade: 'Ensino Técnico',
+                contaItau: 'Sim', filhos: 'Sim', documentoEtnia: 'Sim', valeTransporte: 'Não', declaracao: 'Sim'
+            },
+            {
+                empresa: 'Rigarr2', nomeCompleto: 'Luciana Barbosa Freitas', telefone: '(21) 97654-9876',
+                dataNascimento: '1994-09-05', sexo: 'Feminino', estadoCivil: 'União estável',
+                nomePai: 'Renato Barbosa', nomeMae: 'Marta Freitas Barbosa',
+                rg: '66.777.888-9', cpf: '555.666.777-88', motorista: 'Não', pis: '555.66677.78-9',
+                emailColaborador: 'luciana.freitas@outlook.com', endereco: 'Rua Barata Ribeiro, 78',
+                bairro: 'Botafogo', cidadeEstado: 'Rio de Janeiro/RJ', escolaridade: 'Ensino Superior Completo',
+                contaItau: 'Não', filhos: 'Sim', documentoEtnia: 'Não', valeTransporte: 'Sim', declaracao: 'Sim'
+            },
+            {
+                empresa: 'Rigarr2', nomeCompleto: 'Thiago Ramos Araújo', telefone: '(21) 96543-8765',
+                dataNascimento: '1986-02-14', sexo: 'Masculino', estadoCivil: 'Solteiro(a)',
+                nomePai: 'Osvaldo Ramos', nomeMae: 'Eliane Araújo Ramos',
+                rg: '77.888.999-0', cpf: '666.777.888-99', motorista: 'Sim', pis: '666.77788.89-0',
+                emailColaborador: 'thiago.araujo@gmail.com', endereco: 'Av. Atlântica, 500',
+                bairro: 'Leme', cidadeEstado: 'Rio de Janeiro/RJ', escolaridade: 'Ensino Fundamental Completo',
+                contaItau: 'Sim', filhos: 'Não', documentoEtnia: 'Sim', valeTransporte: 'Sim', declaracao: 'Sim'
+            },
+
+            // ===== RIGARR3 (4 pessoas) =====
+            {
+                empresa: 'Rigarr3', nomeCompleto: 'Roberto Santos Ferreira', telefone: '(31) 97654-3210',
+                dataNascimento: '1995-03-08', sexo: 'Masculino', estadoCivil: 'União estável',
+                nomePai: 'Antônio Marcos Ferreira', nomeMae: 'Sandra Maria Santos',
+                rg: '88.999.000-1', cpf: '456.789.012-33', motorista: 'Sim', pis: '456.78901.23-4',
+                emailColaborador: 'roberto.ferreira@yahoo.com', endereco: 'Rua Minas Gerais, 89',
+                bairro: 'Savassi', cidadeEstado: 'Belo Horizonte/MG', escolaridade: 'Ensino Técnico',
+                contaItau: 'Sim', filhos: 'Sim', documentoEtnia: 'Sim', valeTransporte: 'Não', declaracao: 'Sim'
+            },
+            {
+                empresa: 'Rigarr3', nomeCompleto: 'Camila Teixeira Brito', telefone: '(31) 98876-5544',
+                dataNascimento: '1997-06-19', sexo: 'Feminino', estadoCivil: 'Solteiro(a)',
+                nomePai: 'Ademir Teixeira', nomeMae: 'Valéria Brito Teixeira',
+                rg: '99.000.111-2', cpf: '777.888.999-00', motorista: 'Não', pis: '777.88899.90-1',
+                emailColaborador: 'camila.brito@gmail.com', endereco: 'Rua da Bahia, 1450',
+                bairro: 'Funcionários', cidadeEstado: 'Belo Horizonte/MG', escolaridade: 'Ensino Superior Completo',
+                contaItau: 'Não', filhos: 'Não', documentoEtnia: 'Não', valeTransporte: 'Sim', declaracao: 'Sim'
+            },
+            {
+                empresa: 'Rigarr3', nomeCompleto: 'André Luiz Moreira', telefone: '(31) 99765-4433',
+                dataNascimento: '1989-12-01', sexo: 'Masculino', estadoCivil: 'Casado(a)',
+                nomePai: 'Cícero Moreira', nomeMae: 'Ivone Luiz Moreira',
+                rg: '10.111.222-3', cpf: '888.999.000-11', motorista: 'Não', pis: '888.99900.01-2',
+                emailColaborador: 'andre.moreira@hotmail.com', endereco: 'Av. Afonso Pena, 3000, Sala 12',
+                bairro: 'Mangabeiras', cidadeEstado: 'Belo Horizonte/MG', escolaridade: 'Pós-Graduação',
+                contaItau: 'Sim', filhos: 'Sim', documentoEtnia: 'Sim', valeTransporte: 'Não', declaracao: 'Sim'
+            },
+            {
+                empresa: 'Rigarr3', nomeCompleto: 'Isabela Campos Rocha', telefone: '(31) 96654-3322',
+                dataNascimento: '1992-10-25', sexo: 'Feminino', estadoCivil: 'Divorciado(a)',
+                nomePai: 'Geraldo Campos', nomeMae: 'Neide Rocha Campos',
+                rg: '11.222.333-4', cpf: '999.000.111-22', motorista: 'Sim', pis: '999.00011.12-3',
+                emailColaborador: 'isabela.rocha@outlook.com', endereco: 'Rua Sergipe, 680',
+                bairro: 'Boa Viagem', cidadeEstado: 'Belo Horizonte/MG', escolaridade: 'Ensino Médio Completo',
+                contaItau: 'Não', filhos: 'Sim', documentoEtnia: 'Não', valeTransporte: 'Sim', declaracao: 'Sim'
+            },
+
+            // ===== RIGARR4 (4 pessoas) =====
+            {
+                empresa: 'Rigarr4', nomeCompleto: 'Juliana Costa Mendes', telefone: '(41) 98543-2109',
+                dataNascimento: '1992-07-30', sexo: 'Feminino', estadoCivil: 'Casado(a)',
+                nomePai: 'Paulo Henrique Mendes', nomeMae: 'Luciana Costa Mendes',
+                rg: '12.333.444-5', cpf: '789.012.345-66', motorista: 'Não', pis: '789.01234.56-7',
+                emailColaborador: 'juliana.mendes@gmail.com', endereco: 'Rua XV de Novembro, 300, Sala 5',
+                bairro: 'Batel', cidadeEstado: 'Curitiba/PR', escolaridade: 'Pós-Graduação',
+                contaItau: 'Sim', filhos: 'Não', documentoEtnia: 'Não', valeTransporte: 'Sim', declaracao: 'Sim'
+            },
+            {
+                empresa: 'Rigarr4', nomeCompleto: 'Felipe Gonçalves Dias', telefone: '(41) 97432-1098',
+                dataNascimento: '1990-01-05', sexo: 'Masculino', estadoCivil: 'Solteiro(a)',
+                nomePai: 'Sérgio Gonçalves', nomeMae: 'Beatriz Dias Gonçalves',
+                rg: '13.444.555-6', cpf: '100.200.300-40', motorista: 'Sim', pis: '100.20030.04-1',
+                emailColaborador: 'felipe.dias@gmail.com', endereco: 'Rua Marechal Deodoro, 850',
+                bairro: 'Centro Cívico', cidadeEstado: 'Curitiba/PR', escolaridade: 'Ensino Superior Completo',
+                contaItau: 'Não', filhos: 'Não', documentoEtnia: 'Sim', valeTransporte: 'Sim', declaracao: 'Sim'
+            },
+            {
+                empresa: 'Rigarr4', nomeCompleto: 'Mariana Vieira Lopes', telefone: '(41) 96321-0987',
+                dataNascimento: '1998-05-12', sexo: 'Feminino', estadoCivil: 'União estável',
+                nomePai: 'Eduardo Vieira', nomeMae: 'Cristina Lopes Vieira',
+                rg: '14.555.666-7', cpf: '200.300.400-50', motorista: 'Não', pis: '200.30040.05-2',
+                emailColaborador: 'mariana.lopes@yahoo.com', endereco: 'Av. Sete de Setembro, 1200',
+                bairro: 'Água Verde', cidadeEstado: 'Curitiba/PR', escolaridade: 'Ensino Técnico',
+                contaItau: 'Sim', filhos: 'Sim', documentoEtnia: 'Não', valeTransporte: 'Não', declaracao: 'Sim'
+            },
+            {
+                empresa: 'Rigarr4', nomeCompleto: 'Bruno Henrique Castro', telefone: '(41) 95210-9876',
+                dataNascimento: '1985-08-20', sexo: 'Masculino', estadoCivil: 'Casado(a)',
+                nomePai: 'Valdir Castro', nomeMae: 'Aparecida Henrique Castro',
+                rg: '15.666.777-8', cpf: '300.400.500-60', motorista: 'Sim', pis: '300.40050.06-3',
+                emailColaborador: 'bruno.castro@hotmail.com', endereco: 'Rua Comendador Araújo, 445',
+                bairro: 'Rebouças', cidadeEstado: 'Curitiba/PR', escolaridade: 'Ensino Médio Completo',
+                contaItau: 'Sim', filhos: 'Sim', documentoEtnia: 'Sim', valeTransporte: 'Sim', declaracao: 'Sim'
+            },
+
+            // ===== RIGARR5 (4 pessoas) =====
+            {
+                empresa: 'Rigarr5', nomeCompleto: 'Marcos Vinícius Almeida', telefone: '(51) 99432-1098',
+                dataNascimento: '1985-12-03', sexo: 'Masculino', estadoCivil: 'Divorciado(a)',
+                nomePai: 'Jorge Luiz Almeida', nomeMae: 'Teresa Cristina Almeida',
+                rg: '16.777.888-9', cpf: '321.654.987-00', motorista: 'Sim', pis: '321.65498.70-8',
+                emailColaborador: 'marcos.almeida@outlook.com', endereco: 'Av. Ipiranga, 6681',
+                bairro: 'Partenon', cidadeEstado: 'Porto Alegre/RS', escolaridade: 'Ensino Fundamental Completo',
+                contaItau: 'Não', filhos: 'Sim', documentoEtnia: 'Sim', valeTransporte: 'Sim', declaracao: 'Sim'
+            },
+            {
+                empresa: 'Rigarr5', nomeCompleto: 'Gabriela Fonseca Ribeiro', telefone: '(51) 98321-0987',
+                dataNascimento: '1994-02-28', sexo: 'Feminino', estadoCivil: 'Solteiro(a)',
+                nomePai: 'Márcio Fonseca', nomeMae: 'Denise Ribeiro Fonseca',
+                rg: '17.888.999-0', cpf: '400.500.600-70', motorista: 'Não', pis: '400.50060.07-4',
+                emailColaborador: 'gabriela.ribeiro@gmail.com', endereco: 'Rua dos Andradas, 1001',
+                bairro: 'Centro Histórico', cidadeEstado: 'Porto Alegre/RS', escolaridade: 'Ensino Superior Completo',
+                contaItau: 'Sim', filhos: 'Não', documentoEtnia: 'Não', valeTransporte: 'Sim', declaracao: 'Sim'
+            },
+            {
+                empresa: 'Rigarr5', nomeCompleto: 'Rafael Pinto Cardoso', telefone: '(51) 97210-9876',
+                dataNascimento: '1991-07-16', sexo: 'Masculino', estadoCivil: 'Casado(a)',
+                nomePai: 'Valdemar Pinto', nomeMae: 'Lúcia Cardoso Pinto',
+                rg: '18.999.000-1', cpf: '500.600.700-80', motorista: 'Sim', pis: '500.60070.08-5',
+                emailColaborador: 'rafael.cardoso@yahoo.com', endereco: 'Av. Protásio Alves, 3200',
+                bairro: 'Petrópolis', cidadeEstado: 'Porto Alegre/RS', escolaridade: 'Ensino Técnico',
+                contaItau: 'Não', filhos: 'Sim', documentoEtnia: 'Sim', valeTransporte: 'Não', declaracao: 'Sim'
+            },
+            {
+                empresa: 'Rigarr5', nomeCompleto: 'Aline Nascimento Duarte', telefone: '(51) 96109-8765',
+                dataNascimento: '1999-04-09', sexo: 'Feminino', estadoCivil: 'Solteiro(a)',
+                nomePai: 'Rogério Nascimento', nomeMae: 'Simone Duarte Nascimento',
+                rg: '19.000.111-2', cpf: '600.700.800-90', motorista: 'Não', pis: '600.70080.09-6',
+                emailColaborador: 'aline.duarte@hotmail.com', endereco: 'Rua Voluntários da Pátria, 555',
+                bairro: 'Cidade Baixa', cidadeEstado: 'Porto Alegre/RS', escolaridade: 'Ensino Médio Completo',
+                contaItau: 'Sim', filhos: 'Não', documentoEtnia: 'Não', valeTransporte: 'Sim', declaracao: 'Sim'
+            }
+        ];
+
+        function buildFiles(cad) {
+            const files = {};
+            // Arquivos base que todos têm
+            files.comprovantePis = fakeFile('pis_' + cad.nomeCompleto.split(' ')[0].toLowerCase() + '.pdf', 'application/pdf');
+            files.comprovanteResidencia = fakeFile('residencia_' + cad.nomeCompleto.split(' ')[0].toLowerCase() + '.pdf', 'application/pdf');
+            files.comprovanteEscolaridade = fakeFile('escolaridade_' + cad.nomeCompleto.split(' ')[0].toLowerCase() + '.pdf', 'application/pdf');
+            files.ctpsDigital = fakeFile('ctps_' + cad.nomeCompleto.split(' ')[0].toLowerCase() + '.pdf', 'application/pdf');
+            files.pdfCarteiraTrabalho = fakeFile('carteira_' + cad.nomeCompleto.split(' ')[0].toLowerCase() + '.pdf', 'application/pdf');
+            files.foto3x4 = fakeFile('foto_' + cad.nomeCompleto.split(' ')[0].toLowerCase() + '.png', 'image/png');
+
+            // Condicionais
+            if (cad.sexo === 'Masculino') {
+                files.certificadoReservista = fakeFile('reservista_' + cad.nomeCompleto.split(' ')[0].toLowerCase() + '.pdf', 'application/pdf');
+            }
+            if (cad.estadoCivil === 'Casado(a)' || cad.estadoCivil === 'União estável') {
+                files.certidaoCasamento = fakeFile('casamento_' + cad.nomeCompleto.split(' ')[0].toLowerCase() + '.pdf', 'application/pdf');
+            }
+            if (cad.motorista === 'Sim') {
+                files.cnhDocumento = fakeFile('cnh_' + cad.nomeCompleto.split(' ')[0].toLowerCase() + '.jpg', 'image/jpeg');
+            }
+            if (cad.filhos === 'Sim') {
+                files.certidaoFilhos = fakeFile('filhos_' + cad.nomeCompleto.split(' ')[0].toLowerCase() + '.pdf', 'application/pdf');
+            }
+            return files;
+        }
+
+        async function seedData() {
+            const btn = document.getElementById('btnSeed');
+            btn.disabled = true;
+            logEl.textContent = 'Iniciando envio de 20 cadastros de teste...';
+
+            for (let i = 0; i < testCadastros.length; i++) {
+                const cad = testCadastros[i];
+                log(`\n[${i + 1}/20] Enviando: ${cad.nomeCompleto} (${cad.empresa})...`);
+
+                const payload = {
+                    formData: {
+                        timestamp: new Date().toLocaleString('pt-BR'),
+                        empresa: cad.empresa,
+                        enviadoPor: cad.emailColaborador,
+                        nomeCompleto: cad.nomeCompleto,
+                        telefone: cad.telefone,
+                        dataNascimento: cad.dataNascimento,
+                        sexo: cad.sexo,
+                        estadoCivil: cad.estadoCivil,
+                        nomePai: cad.nomePai,
+                        nomeMae: cad.nomeMae,
+                        rg: cad.rg,
+                        cpf: cad.cpf,
+                        motorista: cad.motorista,
+                        pis: cad.pis,
+                        emailColaborador: cad.emailColaborador,
+                        endereco: cad.endereco,
+                        bairro: cad.bairro,
+                        cidadeEstado: cad.cidadeEstado,
+                        escolaridade: cad.escolaridade,
+                        contaItau: cad.contaItau,
+                        filhos: cad.filhos,
+                        documentoEtnia: cad.documentoEtnia,
+                        valeTransporte: cad.valeTransporte,
+                        declaracao: cad.declaracao
+                    },
+                    files: buildFiles(cad),
+                    nomeColaborador: cad.nomeCompleto
+                };
+
+                try {
+                    const response = await fetch(URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'text/plain' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    try {
+                        const result = await response.json();
+                        log(`   ✓ Sucesso! Pasta: ${result.folder || 'criada'}`);
+                    } catch (e) {
+                        log(`   ✓ Enviado (sem resposta JSON)`);
+                    }
+                } catch (error) {
+                    log(`   ✗ Erro: ${error.message}`);
+                }
+
+                // Esperar 3s entre envios para não sobrecarregar o Apps Script
+                if (i < testCadastros.length - 1) {
+                    log('   Aguardando 3s...');
+                    await new Promise(r => setTimeout(r, 3000));
+                }
+            }
+
+            log('\n========================================');
+            log('PRONTO! 20 cadastros enviados.');
+            log('4 por empresa (Rigarr1 a Rigarr5).');
+            log('Abra o Dashboard e clique em Atualizar.');
+            log('========================================');
+            btn.disabled = false;
+        }
+    </script>
+</body>
+</html>

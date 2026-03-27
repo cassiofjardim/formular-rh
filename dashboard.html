@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel RH - Grupo Rigarr</title>
+    <link rel="icon" href="assets/logo.png" type="image/png">
+    <link rel="stylesheet" href="css/style.css?v=2">
+    <link rel="stylesheet" href="css/dashboard.css?v=2">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- TELA DE LOGIN -->
+    <div id="login-screen" class="login-screen">
+        <div class="login-card">
+            <img src="assets/logo-dashboard.svg" alt="Grupo Rigarr" class="login-logo">
+            <h1>Painel RH</h1>
+            <p>Faça login com seu e-mail corporativo <strong>@rigarr.com.br</strong> para acessar o painel.</p>
+            <button id="google-signin-dev" class="btn-google-dev" onclick="devLogin()">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" width="20" height="20">
+                Fazer login com Google
+            </button>
+            <p id="login-error" class="login-error" style="display:none;"></p>
+        </div>
+    </div>
+
+    <!-- APP PRINCIPAL -->
+    <div id="app" class="app" style="display:none;">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="assets/logo-dashboard.svg" alt="Grupo Rigarr" class="sidebar-logo">
+            </div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item active">
+                    <span class="nav-icon">&#128203;</span>
+                    Todos os Cadastros
+                </a>
+                <a href="index.html" class="nav-item">
+                    <span class="nav-icon">&#9997;</span>
+                    Novo Cadastro
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <span id="user-name" class="user-name"></span>
+                    <span id="user-email" class="user-email"></span>
+                </div>
+                <button class="btn-logout" onclick="logout()">Sair</button>
+            </div>
+        </aside>
+
+        <!-- CONTEUDO PRINCIPAL -->
+        <main class="main-content">
+            <header class="top-bar">
+                <button class="menu-toggle" onclick="toggleSidebar()">&#9776;</button>
+                <h2>Todos os Cadastros</h2>
+                <div class="top-bar-actions">
+                    <div class="search-box">
+                        <input type="text" id="searchInput" placeholder="Buscar por nome, CPF..." oninput="filterCards()">
+                    </div>
+                    <div class="filter-group">
+                        <select id="filterEmpresa" onchange="filterCards()">
+                            <option value="">Todas Empresas</option>
+                            <option value="Rigarr1">Rigarr1</option>
+                            <option value="Rigarr2">Rigarr2</option>
+                            <option value="Rigarr3">Rigarr3</option>
+                            <option value="Rigarr4">Rigarr4</option>
+                            <option value="Rigarr5">Rigarr5</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <select id="filterStatus" onchange="filterCards()">
+                            <option value="">Todos Status</option>
+                            <option value="pendente">Pendentes</option>
+                            <option value="aprovado">Aprovados</option>
+                        </select>
+                    </div>
+                    <button class="btn-refresh" onclick="loadCadastros()" title="Atualizar">&#8635;</button>
+                </div>
+            </header>
+
+            <!-- LOADING -->
+            <div id="loadingState" class="loading-state">
+                <div class="spinner-lg"></div>
+                <p>Carregando cadastros...</p>
+            </div>
+
+            <!-- EMPTY STATE -->
+            <div id="emptyState" class="empty-state" style="display:none;">
+                <div class="empty-icon">&#128203;</div>
+                <h3>Nenhum cadastro encontrado</h3>
+                <p>Os cadastros preenchidos aparecerão aqui.</p>
+            </div>
+
+            <!-- GRID + DETALHE -->
+            <div id="contentArea" class="content-area" style="display:none;">
+                <!-- GRID DE CARDS -->
+                <div id="cardsGrid" class="cards-grid"></div>
+
+                <!-- PAINEL DE DETALHE -->
+                <div id="detailPanel" class="detail-panel" style="display:none;">
+                    <div class="detail-header">
+                        <h3 id="detailName" class="detail-name"></h3>
+                        <div class="detail-actions">
+                            <button class="btn-icon" onclick="editCadastro()" title="Editar">&#9998; Edit</button>
+                            <button class="btn-icon" onclick="prevCadastro()" title="Anterior">&#10094;</button>
+                            <button class="btn-icon" onclick="nextCadastro()" title="Próximo">&#10095;</button>
+                            <button class="btn-icon" onclick="toggleFullscreen()" title="Expandir">&#10530;</button>
+                            <button class="btn-icon" onclick="closeDetail()" title="Fechar">&#10005;</button>
+                        </div>
+                    </div>
+                    <div id="detailBody" class="detail-body"></div>
+                    <div class="detail-footer">
+                        <a id="btnWhatsapp" href="#" target="_blank" class="btn-whatsapp">
+                            &#128172; WHATSAPP
+                        </a>
+                        <button id="btnAprovar" class="btn-aprovar" onclick="aprovarCadastro()">
+                            &#9989; APROVAR CADASTRO
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL DE EDIÇÃO -->
+    <div id="editModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Editar Cadastro</h3>
+                <button class="btn-icon" onclick="closeEditModal()">&#10005;</button>
+            </div>
+            <div id="editForm" class="modal-body"></div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeEditModal()">Cancelar</button>
+                <button class="btn-save" onclick="saveEdit()">Salvar Alterações</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/config-empresas.js?v=2"></script>
+    <script src="js/dashboard.js?v=2"></script>
+</body>
+</html>

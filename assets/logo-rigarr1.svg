@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 100">
+  <rect width="400" height="100" fill="none"/>
+  <rect x="5" y="10" width="80" height="80" rx="12" fill="#1B2A4A"/>
+  <text x="45" y="62" font-family="Arial Black, Arial" font-weight="900" font-size="38" fill="#C9A84C" text-anchor="middle">R1</text>
+  <text x="105" y="50" font-family="Arial Black, Arial" font-weight="900" font-size="36" fill="#1B2A4A">RIGARR</text>
+  <text x="105" y="75" font-family="Arial" font-weight="400" font-size="14" fill="#1B2A4A" letter-spacing="6">LOGISTICS</text>
+</svg>
