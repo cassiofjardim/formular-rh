@@ -186,18 +186,27 @@ function renderCards() {
         const dataNasc = formatDate(cad.dataNascimento);
         const empresaKey = (cad.empresa || '').toLowerCase();
         const empresaConfig = EMPRESAS[empresaKey];
-        const barColor = empresaConfig ? empresaConfig.cores.primary : '#ccc';
-        const badgeColor = empresaConfig ? empresaConfig.cores.accent : '#999';
+        const primaryColor = empresaConfig ? empresaConfig.cores.primary : '#666';
+        const accentColor = empresaConfig ? empresaConfig.cores.accent : '#999';
+
+        // Iniciais do nome para o avatar
+        const nomes = (cad.nomeCompleto || 'S N').split(' ');
+        const iniciais = (nomes[0][0] + (nomes.length > 1 ? nomes[nomes.length - 1][0] : '')).toUpperCase();
 
         const card = document.createElement('div');
         card.className = 'card' + (index === selectedIndex ? ' active' : '');
+        card.style.borderLeft = '3px solid ' + accentColor;
         card.onclick = () => openDetail(index);
 
         card.innerHTML = `
-            <div class="card-color-bar" style="background:${barColor};"></div>
             <div class="card-inner">
                 <div class="card-header">
-                    <div class="card-title">${escapeHtml(cad.nomeCompleto || 'Sem nome')}</div>
+                    <div class="card-avatar" style="background:${primaryColor};">${iniciais}</div>
+                    <div class="card-header-info">
+                        <div class="card-title">${escapeHtml(cad.nomeCompleto || 'Sem nome')}</div>
+                        <div class="card-subtitle">${escapeHtml(cad.cidadeEstado || '')}${cad.bairro ? ' - ' + escapeHtml(cad.bairro) : ''}</div>
+                    </div>
+                    <span class="card-empresa" style="background:${accentColor};">${escapeHtml(cad.empresa || '')}</span>
                 </div>
                 <div class="card-body">
                     <div class="card-body-item">
@@ -213,13 +222,12 @@ function renderCards() {
                         <span class="card-body-value">${dataNasc || '-'}</span>
                     </div>
                     <div class="card-body-item">
-                        <span class="card-body-label">Bairro</span>
-                        <span class="card-body-value">${escapeHtml(cad.bairro || '-')}</span>
+                        <span class="card-body-label">Escolaridade</span>
+                        <span class="card-body-value">${escapeHtml(cad.escolaridade || '-')}</span>
                     </div>
                 </div>
                 <div class="card-footer">
                     <a href="https://wa.me/55${phone}" target="_blank" class="card-whatsapp" onclick="event.stopPropagation();">WhatsApp</a>
-                    <span class="card-empresa" style="background:${badgeColor};">${escapeHtml(cad.empresa || '')}</span>
                     ${isApproved
                         ? '<span class="card-status aprovado-badge">Aprovado</span>'
                         : '<span class="card-status pendente-badge">Pendente</span>'}

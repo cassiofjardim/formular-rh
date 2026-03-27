@@ -80,8 +80,8 @@
 .cards-grid {
     flex: 1;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 12px;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 14px;
     padding: 20px;
     overflow-y: auto;
     align-content: start;
@@ -89,18 +89,17 @@
 
 .card {
     background: var(--white);
-    border: 1px solid var(--border);
+    border: 1px solid #eee;
     border-radius: 10px;
     cursor: pointer;
     transition: all 0.2s;
     position: relative;
-    overflow: hidden;
     display: flex;
     flex-direction: column;
 }
 
 .card:hover {
-    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
     transform: translateY(-1px);
 }
 
@@ -108,26 +107,42 @@
     box-shadow: 0 0 0 2px var(--accent);
 }
 
-.card-color-bar {
-    height: 4px;
-    width: 100%;
-}
-
 .card-inner {
-    padding: 16px;
+    padding: 18px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 14px;
     flex: 1;
 }
 
+/* --- HEADER: avatar + info + badge --- */
 .card-header {
     display: flex;
     align-items: center;
+    gap: 12px;
+}
+
+.card-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+    letter-spacing: 0.5px;
+}
+
+.card-header-info {
+    flex: 1;
+    min-width: 0;
 }
 
 .card-title {
-    font-size: 0.9rem;
+    font-size: 0.92rem;
     font-weight: 600;
     color: #222;
     line-height: 1.3;
@@ -136,73 +151,79 @@
     text-overflow: ellipsis;
 }
 
+.card-subtitle {
+    font-size: 0.72rem;
+    color: #999;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .card-empresa {
-    padding: 2px 8px;
-    border-radius: 3px;
+    padding: 3px 9px;
+    border-radius: 4px;
     font-size: 0.65rem;
     font-weight: 700;
     color: #fff;
     letter-spacing: 0.3px;
     white-space: nowrap;
+    flex-shrink: 0;
+    align-self: flex-start;
 }
 
+/* --- BODY: grid 2x2 --- */
 .card-body {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 4px 16px;
-    font-size: 0.78rem;
-    color: var(--text-light);
+    gap: 8px 20px;
 }
 
 .card-body-item {
     display: flex;
     flex-direction: column;
-    gap: 1px;
+    gap: 2px;
 }
 
 .card-body-label {
-    font-size: 0.65rem;
+    font-size: 0.62rem;
     text-transform: uppercase;
-    letter-spacing: 0.3px;
-    color: #aaa;
+    letter-spacing: 0.4px;
+    color: #bbb;
+    font-weight: 500;
 }
 
 .card-body-value {
     font-size: 0.82rem;
-    color: var(--text);
+    color: #333;
     font-weight: 500;
 }
 
+/* --- FOOTER --- */
 .card-footer {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding-top: 10px;
-    border-top: 1px solid #f3f3f3;
+    justify-content: space-between;
+    padding-top: 12px;
+    border-top: 1px solid #f0f0f0;
 }
 
 .card-whatsapp {
     color: #25d366;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     font-weight: 600;
     text-decoration: none;
-    letter-spacing: 0.2px;
 }
 
 .card-whatsapp:hover {
     text-decoration: underline;
 }
 
-.card-footer .card-empresa {
-    margin-left: auto;
-}
-
 .card-status {
-    font-size: 0.65rem;
+    font-size: 0.68rem;
     font-weight: 600;
     letter-spacing: 0.2px;
-    padding: 3px 8px;
-    border-radius: 10px;
+    padding: 4px 10px;
+    border-radius: 12px;
     white-space: nowrap;
 }
 
