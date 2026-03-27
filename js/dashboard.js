@@ -615,7 +615,7 @@ async function aprovarCadastro() {
     if (!cad) return;
     if ((cad.status || '').toLowerCase() === 'aprovado') return;
 
-    const emailDestino = currentUser ? currentUser.email : 'rh@rigarr.com.br';
+    const emailDestino = 'cassio.felix@rigarr.com.br';
 
     if (!confirm(
         'Aprovar cadastro de ' + (cad.nomeCompleto || 'este colaborador') + '?\n\n' +
