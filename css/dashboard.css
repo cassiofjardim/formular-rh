@@ -74,6 +74,7 @@
     display: flex;
     height: calc(100vh - var(--topbar-height));
     overflow: hidden;
+    position: relative;
 }
 
 /* ===== CARDS GRID ===== */
@@ -237,27 +238,27 @@
     color: #b45309;
 }
 
-/* ===== DETAIL PANEL ===== */
+/* ===== DETAIL PANEL (overlay, não comprime os cards) ===== */
 .detail-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
     width: 520px;
-    min-width: 520px;
     background: var(--white);
-    border-left: 1px solid var(--border);
+    border-left: 1px solid #eee;
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    z-index: 150;
+    box-shadow: -4px 0 24px rgba(0,0,0,0.08);
 }
 
 .detail-panel.fullscreen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
     width: 100%;
-    min-width: 100%;
     z-index: 200;
     border: none;
+    box-shadow: none;
 }
 
 .detail-header {
@@ -684,18 +685,11 @@
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1024px) {
     .detail-panel {
-        position: fixed;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        z-index: 150;
-        box-shadow: -4px 0 20px rgba(0,0,0,0.15);
         width: 420px;
-        min-width: 420px;
     }
 
     .cards-grid {
-        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     }
 }
 
@@ -710,8 +704,6 @@
 
     .detail-panel {
         width: 100%;
-        min-width: 100%;
-        left: 0;
     }
 
     .cards-grid {
