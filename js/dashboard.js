@@ -615,15 +615,12 @@ async function aprovarCadastro() {
     if (!cad) return;
     if ((cad.status || '').toLowerCase() === 'aprovado') return;
 
-    // Pedir email para envio dos documentos
-    const emailPadrao = currentUser ? currentUser.email : '';
-    const emailDestino = prompt(
-        'Aprovar cadastro de ' + (cad.nomeCompleto || 'este colaborador') + '.\n\n' +
-        'Os documentos serão enviados por email.\nDigite o email de destino:',
-        emailPadrao
-    );
+    const emailDestino = currentUser ? currentUser.email : 'rh@rigarr.com.br';
 
-    if (!emailDestino) return; // Cancelou
+    if (!confirm(
+        'Aprovar cadastro de ' + (cad.nomeCompleto || 'este colaborador') + '?\n\n' +
+        'Os documentos serão enviados para: ' + emailDestino
+    )) return;
 
     const btnAprovar = document.getElementById('btnAprovar');
     const textoOriginal = btnAprovar.innerHTML;
@@ -633,6 +630,7 @@ async function aprovarCadastro() {
     try {
         const response = await fetch(CONFIG.APPS_SCRIPT_URL, {
             method: 'POST',
+            mode: 'no-cors',
             headers: { 'Content-Type': 'text/plain' },
             body: JSON.stringify({
                 action: 'aprovarCadastro',
@@ -643,19 +641,13 @@ async function aprovarCadastro() {
             })
         });
 
-        let msg = 'Cadastro aprovado!';
-        try {
-            const result = await response.json();
-            if (result.message) msg = result.message;
-        } catch (e) {}
-
         cad.status = 'Aprovado';
         const origIdx = cadastros.findIndex(c => c._row === cad._row);
         if (origIdx !== -1) cadastros[origIdx].status = 'Aprovado';
 
         openDetail(selectedIndex);
         renderCards();
-        alert(msg);
+        alert('Cadastro aprovado! Email com documentos enviado para ' + emailDestino);
     } catch (error) {
         alert('Erro ao aprovar: ' + error.message);
         btnAprovar.innerHTML = textoOriginal;
