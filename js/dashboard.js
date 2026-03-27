@@ -615,15 +615,39 @@ async function aprovarCadastro() {
     if (!cad) return;
     if ((cad.status || '').toLowerCase() === 'aprovado') return;
 
-    if (!confirm('Aprovar o cadastro de ' + (cad.nomeCompleto || 'este colaborador') + '?')) return;
+    // Pedir email para envio dos documentos
+    const emailPadrao = currentUser ? currentUser.email : '';
+    const emailDestino = prompt(
+        'Aprovar cadastro de ' + (cad.nomeCompleto || 'este colaborador') + '.\n\n' +
+        'Os documentos serão enviados por email.\nDigite o email de destino:',
+        emailPadrao
+    );
+
+    if (!emailDestino) return; // Cancelou
+
+    const btnAprovar = document.getElementById('btnAprovar');
+    const textoOriginal = btnAprovar.innerHTML;
+    btnAprovar.innerHTML = '&#9203; Aprovando e enviando...';
+    btnAprovar.disabled = true;
 
     try {
-        await fetch(CONFIG.APPS_SCRIPT_URL, {
+        const response = await fetch(CONFIG.APPS_SCRIPT_URL, {
             method: 'POST',
-            mode: 'no-cors',
             headers: { 'Content-Type': 'text/plain' },
-            body: JSON.stringify({ action: 'aprovarCadastro', row: cad._row })
+            body: JSON.stringify({
+                action: 'aprovarCadastro',
+                row: cad._row,
+                emailDestinatario: emailDestino,
+                nomeColaborador: cad.nomeCompleto || 'Colaborador',
+                empresa: cad.empresa || ''
+            })
         });
+
+        let msg = 'Cadastro aprovado!';
+        try {
+            const result = await response.json();
+            if (result.message) msg = result.message;
+        } catch (e) {}
 
         cad.status = 'Aprovado';
         const origIdx = cadastros.findIndex(c => c._row === cad._row);
@@ -631,9 +655,11 @@ async function aprovarCadastro() {
 
         openDetail(selectedIndex);
         renderCards();
-        alert('Cadastro aprovado!');
+        alert(msg);
     } catch (error) {
         alert('Erro ao aprovar: ' + error.message);
+        btnAprovar.innerHTML = textoOriginal;
+        btnAprovar.disabled = false;
     }
 }
 

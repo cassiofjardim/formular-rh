@@ -55,7 +55,7 @@ function doPost(e) {
 
     // === APROVAR CADASTRO ===
     if (action === 'aprovarCadastro') {
-      return aprovarCadastro(data.row);
+      return aprovarCadastro(data.row, data.emailDestinatario, data.nomeColaborador, data.empresa);
     }
 
     // === RE-UPLOAD DE ARQUIVO ===
@@ -151,9 +151,9 @@ function updateCadastro(rowNumber, updates) {
 }
 
 // ============================================================
-// APROVAR CADASTRO - Marca status como "Aprovado"
+// APROVAR CADASTRO - Marca como "Aprovado" + envia email com docs
 // ============================================================
-function aprovarCadastro(rowNumber) {
+function aprovarCadastro(rowNumber, emailDestinatario, nomeColaborador, empresa) {
   const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
   const sheet = ss.getSheetByName(SHEET_NAME);
 
@@ -162,7 +162,6 @@ function aprovarCadastro(rowNumber) {
   let statusColIndex = headers.indexOf('Status') + 1;
 
   if (statusColIndex === 0) {
-    // Adicionar coluna Status se não existir
     statusColIndex = sheet.getLastColumn() + 1;
     sheet.getRange(1, statusColIndex).setValue('Status');
     sheet.getRange(1, statusColIndex).setFontWeight('bold');
@@ -174,8 +173,82 @@ function aprovarCadastro(rowNumber) {
   const lastCol = sheet.getLastColumn();
   sheet.getRange(rowNumber, 1, 1, lastCol).setBackground('#e8f5e9');
 
+  // === ENVIAR EMAIL COM DOCUMENTOS ===
+  let emailMsg = 'Cadastro aprovado.';
+  try {
+    // Encontrar a pasta do colaborador
+    const pastaColIndex = headers.indexOf('Link - Pasta Documentos') + 1;
+    let attachments = [];
+
+    if (pastaColIndex > 0) {
+      const pastaUrl = sheet.getRange(rowNumber, pastaColIndex).getValue();
+      if (pastaUrl) {
+        const folderIdMatch = pastaUrl.match(/folders\/([a-zA-Z0-9_-]+)/);
+        if (folderIdMatch) {
+          const folder = DriveApp.getFolderById(folderIdMatch[1]);
+          const files = folder.getFiles();
+
+          while (files.hasNext()) {
+            const file = files.next();
+            attachments.push(file.getAs(file.getMimeType()));
+          }
+        }
+      }
+    }
+
+    // Montar dados do colaborador para o corpo do email
+    const rowData = sheet.getRange(rowNumber, 1, 1, lastCol).getValues()[0];
+    let dadosHtml = '';
+    for (let i = 0; i < headers.length; i++) {
+      const h = headers[i];
+      const v = rowData[i];
+      if (v && !String(h).startsWith('Link -') && h !== 'Status') {
+        dadosHtml += '<tr><td style="padding:6px 12px;font-weight:600;color:#555;border-bottom:1px solid #eee;">' + h + '</td><td style="padding:6px 12px;border-bottom:1px solid #eee;">' + v + '</td></tr>';
+      }
+    }
+
+    const htmlBody = `
+      <div style="font-family:Arial,sans-serif;max-width:640px;margin:0 auto;">
+        <div style="background:#222;padding:20px 24px;border-radius:8px 8px 0 0;">
+          <h2 style="color:#EFC030;margin:0;">Cadastro Aprovado</h2>
+          <p style="color:#ccc;margin:4px 0 0;">${empresa || 'Grupo Rigarr'}</p>
+        </div>
+        <div style="background:#fff;padding:24px;border:1px solid #eee;">
+          <p style="font-size:16px;margin:0 0 16px;">O cadastro de <strong>${nomeColaborador || 'Colaborador'}</strong> foi aprovado.</p>
+          <table style="width:100%;border-collapse:collapse;font-size:14px;">
+            ${dadosHtml}
+          </table>
+          <p style="margin:20px 0 0;font-size:13px;color:#999;">
+            ${attachments.length > 0 ? attachments.length + ' documento(s) anexado(s) a este email.' : 'Nenhum documento encontrado na pasta.'}
+          </p>
+        </div>
+        <div style="background:#f5f5f5;padding:12px 24px;border-radius:0 0 8px 8px;border:1px solid #eee;border-top:none;">
+          <p style="margin:0;font-size:12px;color:#999;">Formulário Admissional - Grupo Rigarr</p>
+        </div>
+      </div>
+    `;
+
+    if (emailDestinatario) {
+      GmailApp.sendEmail(
+        emailDestinatario,
+        'Cadastro Aprovado - ' + (nomeColaborador || 'Colaborador') + ' (' + (empresa || '') + ')',
+        'Cadastro de ' + (nomeColaborador || 'Colaborador') + ' aprovado. Documentos em anexo.',
+        {
+          htmlBody: htmlBody,
+          attachments: attachments,
+          name: 'RH Grupo Rigarr'
+        }
+      );
+      emailMsg = 'Cadastro aprovado e email enviado para ' + emailDestinatario + ' com ' + attachments.length + ' documento(s).';
+    }
+
+  } catch (emailError) {
+    Logger.log('Erro ao enviar email: ' + emailError.toString());
+    emailMsg = 'Cadastro aprovado, mas houve erro ao enviar email: ' + emailError.toString();
+  }
+
   return ContentService
-    .createTextOutput(JSON.stringify({ status: 'success', message: 'Cadastro aprovado.' }))
+    .createTextOutput(JSON.stringify({ status: 'success', message: emailMsg }))
     .setMimeType(ContentService.MimeType.JSON);
 }
 
