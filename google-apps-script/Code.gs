@@ -63,6 +63,11 @@ function doPost(e) {
       return reuploadFile(data.row, data.fieldKey, data.originalFieldName, data.nomeColaborador, data.file);
     }
 
+    // === SALVAR RASCUNHO (draft) ===
+    if (action === 'saveDraft') {
+      return saveDraft(data.draftRow, data.formData);
+    }
+
     // === NOVO CADASTRO (formulário) ===
     const formData = data.formData;
     const files = data.files;
@@ -131,7 +136,12 @@ function doPost(e) {
 
     fileLinks['pastaDocumentos'] = subFolder.getUrl();
 
-    saveToSheet(formData, fileLinks);
+    // Se veio de um rascunho, atualizar a linha existente em vez de criar nova
+    if (data.draftRow && data.draftRow > 1) {
+      updateDraftToComplete(data.draftRow, formData, fileLinks);
+    } else {
+      saveToSheet(formData, fileLinks);
+    }
 
     return ContentService
       .createTextOutput(JSON.stringify({ status: 'success', folder: subFolder.getUrl() }))
@@ -483,6 +493,147 @@ function saveToSheet(formData, fileLinks) {
   ];
 
   sheet.appendRow(row);
+}
+
+// ============================================================
+// ATUALIZAR RASCUNHO PARA COMPLETO (Incompleto → Pendente)
+// ============================================================
+function updateDraftToComplete(rowNumber, formData, fileLinks) {
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const sheet = ss.getSheetByName(SHEET_NAME);
+  const headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+
+  var row = [
+    formData.timestamp || new Date().toLocaleString(),
+    formData.empresa || '',
+    formData.enviadoPor || '',
+    formData.nomeCompleto || '',
+    formData.telefone || '',
+    formData.dataNascimento || '',
+    formData.sexo || '',
+    formData.estadoCivil || '',
+    formData.nomePai || '',
+    formData.nomeMae || '',
+    formData.rg || '',
+    formData.cpf || '',
+    formData.motorista || '',
+    formData.pis || '',
+    formData.emailColaborador || '',
+    formData.endereco || '',
+    formData.bairro || '',
+    formData.cidadeEstado || '',
+    formData.escolaridade || '',
+    formData.contaItau || '',
+    formData.filhos || '',
+    formData.documentoEtnia || '',
+    formData.valeTransporte || '',
+    formData.declaracao || '',
+    fileLinks.certificadoReservista || '',
+    fileLinks.certidaoCasamento || '',
+    fileLinks.cnhDocumento || '',
+    fileLinks.comprovantePis || '',
+    fileLinks.comprovanteResidencia || '',
+    fileLinks.comprovanteEscolaridade || '',
+    fileLinks.ctpsDigital || '',
+    fileLinks.pdfCarteiraTrabalho || '',
+    fileLinks.foto3x4 || '',
+    fileLinks.certidaoFilhos || '',
+    fileLinks.pastaDocumentos || '',
+    'Pendente'
+  ];
+
+  sheet.getRange(rowNumber, 1, 1, row.length).setValues([row]);
+  // Remover cor amarela do rascunho
+  sheet.getRange(rowNumber, 1, 1, sheet.getLastColumn()).setBackground(null);
+}
+
+// ============================================================
+// SALVAR RASCUNHO (DRAFT) - Cria ou atualiza linha com status "Incompleto"
+// ============================================================
+function saveDraft(draftRow, formData) {
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  let sheet = ss.getSheetByName(SHEET_NAME);
+
+  if (!sheet) {
+    sheet = ss.insertSheet(SHEET_NAME);
+    const headers = [
+      'Timestamp', 'Empresa', 'Enviado Por', 'Nome Completo', 'Telefone',
+      'Data de Nascimento', 'Sexo', 'Estado Civil', 'Nome do Pai', 'Nome da Mãe',
+      'RG', 'CPF', 'Motorista', 'PIS', 'Email', 'Endereço', 'Bairro',
+      'Cidade/Estado', 'Escolaridade', 'Conta Itaú', 'Possui Filhos',
+      'Documento Etnia', 'Vale Transporte', 'Declaração',
+      'Link - Certificado Reservista', 'Link - Certidão Casamento',
+      'Link - CNH', 'Link - Comprovante PIS', 'Link - Comprovante Residência',
+      'Link - Comprovante Escolaridade', 'Link - CTPS Digital',
+      'Link - Carteira Trabalho PDF', 'Link - Foto 3x4',
+      'Link - Certidão Filhos', 'Link - Pasta Documentos', 'Status'
+    ];
+    sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
+    sheet.getRange(1, 1, 1, headers.length).setFontWeight('bold');
+    sheet.setFrozenRows(1);
+  }
+
+  // Garantir coluna Status
+  const headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+  let statusColIndex = headers.indexOf('Status') + 1;
+  if (statusColIndex === 0) {
+    statusColIndex = sheet.getLastColumn() + 1;
+    sheet.getRange(1, statusColIndex).setValue('Status');
+    sheet.getRange(1, statusColIndex).setFontWeight('bold');
+  }
+
+  var row = [
+    formData.timestamp || new Date().toLocaleString(),
+    formData.empresa || '',
+    formData.enviadoPor || '',
+    formData.nomeCompleto || '',
+    formData.telefone || '',
+    formData.dataNascimento || '',
+    formData.sexo || '',
+    formData.estadoCivil || '',
+    formData.nomePai || '',
+    formData.nomeMae || '',
+    formData.rg || '',
+    formData.cpf || '',
+    formData.motorista || '',
+    formData.pis || '',
+    formData.emailColaborador || '',
+    formData.endereco || '',
+    formData.bairro || '',
+    formData.cidadeEstado || '',
+    formData.escolaridade || '',
+    formData.contaItau || '',
+    formData.filhos || '',
+    formData.documentoEtnia || '',
+    formData.valeTransporte || '',
+    formData.declaracao || ''
+  ];
+
+  // Preencher colunas de links com vazio (rascunho não tem arquivos ainda)
+  // Colunas 25-35 são links de arquivos + pasta
+  while (row.length < statusColIndex - 1) {
+    row.push('');
+  }
+  row.push('Incompleto');
+
+  if (draftRow && draftRow > 1) {
+    // Atualizar linha existente
+    // Só atualizar os campos de texto (colunas 1 a 24), não apagar links se já tiverem
+    sheet.getRange(draftRow, 1, 1, 24).setValues([row.slice(0, 24)]);
+    // Colorir de amarelo claro
+    sheet.getRange(draftRow, 1, 1, sheet.getLastColumn()).setBackground('#fff8e1');
+    return ContentService
+      .createTextOutput(JSON.stringify({ status: 'success', row: draftRow }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } else {
+    // Criar nova linha
+    sheet.appendRow(row);
+    var newRow = sheet.getLastRow();
+    sheet.getRange(newRow, 1, 1, sheet.getLastColumn()).setBackground('#fff8e1');
+    return ContentService
+      .createTextOutput(JSON.stringify({ status: 'success', row: newRow }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
 }
 
 // ============================================================

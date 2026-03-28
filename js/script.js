@@ -2,7 +2,7 @@
 // CONFIGURAÇÃO
 // ============================================================
 const CONFIG = {
-    APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbxXXUcW5eUTc9FGsBiCUj79JaX2f-Q6sCmaP-98gL9DDR2e2DxGfeNZWshnkxGoQgs/exec'
+    APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbxmPuvRlc8tLGerzAGS4C_QFrkeUvLscwEGnKxSc6DPAt4NXd-hAMnPHTsBat6CZzhk/exec'
 };
 
 // ============================================================
@@ -10,6 +10,8 @@ const CONFIG = {
 // ============================================================
 let usuarioNome = '';
 let usuarioEmail = '';
+let draftRow = null; // Linha do rascunho na planilha
+let autoSaveTimer = null;
 
 function entrarFormulario() {
     const nome = document.getElementById('loginNome').value.trim();
@@ -40,6 +42,62 @@ function entrarFormulario() {
 
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('app').style.display = 'block';
+
+    // Salvar rascunho inicial na planilha
+    salvarRascunho();
+
+    // Auto-save a cada 30 segundos
+    autoSaveTimer = setInterval(salvarRascunho, 30000);
+}
+
+// Salvar/atualizar rascunho com dados preenchidos até agora
+async function salvarRascunho() {
+    try {
+        const empresa = (typeof detectarEmpresa === 'function') ? detectarEmpresa() : { nome: 'Rigarr' };
+        const dados = {
+            action: 'saveDraft',
+            draftRow: draftRow,
+            formData: {
+                timestamp: new Date().toLocaleString('pt-BR'),
+                empresa: empresa.nome,
+                enviadoPor: usuarioEmail || '',
+                nomeCompleto: val('nomeCompleto'),
+                telefone: val('telefone'),
+                dataNascimento: val('dataNascimento'),
+                sexo: val('sexo'),
+                estadoCivil: val('estadoCivil'),
+                nomePai: val('nomePai'),
+                nomeMae: val('nomeMae'),
+                rg: val('rg'),
+                cpf: val('cpf'),
+                motorista: val('motorista'),
+                pis: val('pis'),
+                emailColaborador: val('emailColaborador'),
+                endereco: val('endereco'),
+                bairro: val('bairro'),
+                cidadeEstado: val('cidadeEstado'),
+                escolaridade: val('escolaridade'),
+                contaItau: val('contaItau'),
+                filhos: val('filhos'),
+                documentoEtnia: val('documentoEtnia'),
+                valeTransporte: val('valeTransporte'),
+                declaracao: val('declaracao')
+            }
+        };
+
+        const response = await fetch(CONFIG.APPS_SCRIPT_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain' },
+            body: JSON.stringify(dados)
+        });
+
+        try {
+            const result = await response.json();
+            if (result.row) draftRow = result.row;
+        } catch (e) { /* silencioso */ }
+    } catch (e) {
+        console.log('Auto-save erro (silencioso):', e);
+    }
 }
 
 // ============================================================
@@ -414,10 +472,17 @@ async function handleSubmit(e) {
         updateLoading('Enviando para o servidor...');
 
         // Enviar para o Google Apps Script
+        // Parar auto-save
+        if (autoSaveTimer) {
+            clearInterval(autoSaveTimer);
+            autoSaveTimer = null;
+        }
+
         const payload = {
             formData: formData,
             files: files,
-            nomeColaborador: formData.nomeCompleto
+            nomeColaborador: formData.nomeCompleto,
+            draftRow: draftRow
         };
 
         const response = await fetch(CONFIG.APPS_SCRIPT_URL, {

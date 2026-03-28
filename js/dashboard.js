@@ -4,7 +4,7 @@
 const CONFIG = {
     DEV_MODE: true,
     GOOGLE_CLIENT_ID: 'SEU_CLIENT_ID_AQUI.apps.googleusercontent.com',
-    APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbxXXUcW5eUTc9FGsBiCUj79JaX2f-Q6sCmaP-98gL9DDR2e2DxGfeNZWshnkxGoQgs/exec',
+    APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbxmPuvRlc8tLGerzAGS4C_QFrkeUvLscwEGnKxSc6DPAt4NXd-hAMnPHTsBat6CZzhk/exec',
     ALLOWED_DOMAIN: 'rigarr.com.br'
 };
 
@@ -173,7 +173,18 @@ async function loadCadastros() {
                 });
                 return obj;
             }).filter(cad => {
-                // Só exibir cadastros completos (campos e docs obrigatórios preenchidos)
+                // Não exibir cadastros já aprovados
+                const isAprovado = (cad.status || '').toLowerCase() === 'aprovado';
+                if (isAprovado) return false;
+
+                // Incompleto: mostrar se tem status "Incompleto" (rascunho) e pelo menos nome
+                const isIncompleto = (cad.status || '').toLowerCase() === 'incompleto';
+                if (isIncompleto) {
+                    // Mostrar rascunhos que tenham pelo menos o nome preenchido
+                    return cad.nomeCompleto && String(cad.nomeCompleto).trim() !== '';
+                }
+
+                // Para cadastros sem status ou "Pendente", verificar completude
                 const camposObrig = ['nomeCompleto', 'telefone', 'dataNascimento', 'sexo', 'estadoCivil',
                     'nomePai', 'nomeMae', 'rg', 'cpf', 'motorista', 'emailColaborador',
                     'endereco', 'bairro', 'cidadeEstado', 'escolaridade', 'contaItau', 'filhos', 'declaracao'];
@@ -190,10 +201,7 @@ async function loadCadastros() {
                 if (cad.motorista === 'Sim' && (!cad.linkCnh || !String(cad.linkCnh).trim())) docsCondOk = false;
                 if (cad.filhos === 'Sim' && (!cad.linkFilhos || !String(cad.linkFilhos).trim())) docsCondOk = false;
 
-                // Não exibir cadastros já aprovados
-                const isAprovado = (cad.status || '').toLowerCase() === 'aprovado';
-
-                return todosPreenchidos && todosDocsFixos && docsCondOk && !isAprovado;
+                return todosPreenchidos && todosDocsFixos && docsCondOk;
             });
 
             filteredCadastros = [...cadastros];
@@ -225,7 +233,9 @@ function renderCards() {
     }
 
     filteredCadastros.forEach((cad, index) => {
-        const isApproved = (cad.status || '').toLowerCase() === 'aprovado';
+        const statusLower = (cad.status || '').toLowerCase();
+        const isApproved = statusLower === 'aprovado';
+        const isIncompleto = statusLower === 'incompleto';
         const phone = (cad.telefone || '').replace(/\D/g, '');
         const dataNasc = formatDate(cad.dataNascimento);
         const empresaConfig = findEmpresaConfig(cad.empresa);
@@ -273,6 +283,8 @@ function renderCards() {
                     <a href="#" target="_blank" class="card-chatwoot" onclick="event.stopPropagation();">Enviar Chatwoot</a>
                     ${isApproved
                         ? '<span class="card-status aprovado-badge">Aprovado</span>'
+                        : isIncompleto
+                        ? '<span class="card-status incompleto-badge">Incompleto</span>'
                         : '<span class="card-status pendente-badge">Pendente</span>'}
                 </div>
             </div>
