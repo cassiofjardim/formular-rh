@@ -26,12 +26,12 @@
 
 .login-card-top {
     background: linear-gradient(135deg, #1B2A4A 0%, #0f1a30 100%);
-    padding: 40px 40px 32px;
+    padding: 48px 40px 36px;
     text-align: center;
 }
 
 .login-card-top .login-logo {
-    width: 200px;
+    width: 240px;
     margin-bottom: 0;
     filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));
 }
