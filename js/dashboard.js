@@ -287,7 +287,6 @@ function renderCards() {
 // ============================================================
 function filterCards() {
     const search = document.getElementById('searchInput').value.toLowerCase().trim();
-    const statusFilter = document.getElementById('filterStatus').value;
     const empresaFilter = document.getElementById('filterEmpresa').value;
 
     filteredCadastros = cadastros.filter(cad => {
@@ -297,16 +296,11 @@ function filterCards() {
             (cad.telefone || '').includes(search) ||
             (cad.emailColaborador || '').toLowerCase().includes(search);
 
-        const status = (cad.status || '').toLowerCase();
-        const matchStatus = !statusFilter ||
-            (statusFilter === 'aprovado' && status === 'aprovado') ||
-            (statusFilter === 'pendente' && status !== 'aprovado');
-
         const cadEmpresaConfig = findEmpresaConfig(cad.empresa);
         const matchEmpresa = !empresaFilter ||
             (cadEmpresaConfig && cadEmpresaConfig.id.toLowerCase() === empresaFilter.toLowerCase());
 
-        return matchSearch && matchStatus && matchEmpresa;
+        return matchSearch && matchEmpresa;
     });
 
     selectedIndex = -1;
