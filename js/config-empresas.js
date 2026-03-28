@@ -109,7 +109,14 @@ function aplicarTemaEmpresa(empresa) {
         // Background suave vinho no formulário
         const appForm = document.querySelector('.app-form');
         if (appForm) {
-            appForm.style.background = 'linear-gradient(180deg, #f5e6ec 0%, #f0dce4 100%)';
+            appForm.style.background = '#f9f0f3';
+        }
+        // Logo BIB ocupa largura total como banner
+        const formLogo = document.querySelector('.form-logo');
+        if (formLogo) {
+            formLogo.style.width = '100%';
+            formLogo.style.maxWidth = '100%';
+            formLogo.style.borderRadius = '12px';
         }
         // Barra de seções com tom vinho suave
         document.querySelectorAll('.section-title').forEach(el => {

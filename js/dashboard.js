@@ -227,7 +227,7 @@ function renderCards() {
                     </div>
                 </div>
                 <div class="card-footer">
-                    <a href="#" target="_blank" class="card-chatwoot" onclick="event.stopPropagation();">Chatwoot</a>
+                    <a href="#" target="_blank" class="card-chatwoot" onclick="event.stopPropagation();">Enviar Chatwoot</a>
                     ${isApproved
                         ? '<span class="card-status aprovado-badge">Aprovado</span>'
                         : '<span class="card-status pendente-badge">Pendente</span>'}
