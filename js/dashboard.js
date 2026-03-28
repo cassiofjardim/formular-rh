@@ -190,7 +190,10 @@ async function loadCadastros() {
                 if (cad.motorista === 'Sim' && (!cad.linkCnh || !String(cad.linkCnh).trim())) docsCondOk = false;
                 if (cad.filhos === 'Sim' && (!cad.linkFilhos || !String(cad.linkFilhos).trim())) docsCondOk = false;
 
-                return todosPreenchidos && todosDocsFixos && docsCondOk;
+                // Não exibir cadastros já aprovados
+                const isAprovado = (cad.status || '').toLowerCase() === 'aprovado';
+
+                return todosPreenchidos && todosDocsFixos && docsCondOk && !isAprovado;
             });
 
             filteredCadastros = [...cadastros];
