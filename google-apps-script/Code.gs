@@ -114,6 +114,8 @@ function doPost(e) {
     const timestamp = Utilities.formatDate(new Date(), 'America/Sao_Paulo', 'yyyy-MM-dd_HH-mm');
     const subFolderName = nomeColaborador.replace(/[^a-zA-ZÀ-ÿ0-9 ]/g, '') + ' - ' + timestamp;
     const subFolder = mainFolder.createFolder(subFolderName);
+    // Permitir visualização por qualquer pessoa com o link
+    subFolder.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
 
     // Salvar arquivos no Drive e coletar links
     const fileLinks = {};
@@ -391,17 +393,43 @@ function reuploadFile(rowNumber, fieldKey, originalFieldName, nomeColaborador, f
 }
 
 // ============================================================
+// NOMES DESCRITIVOS DOS CAMPOS DE ARQUIVO
+// ============================================================
+const FILE_LABELS = {
+  comprovanteResidencia: 'Comprovante Residencia',
+  comprovanteEscolaridade: 'Comprovante Escolaridade',
+  ctpsDigital: 'CTPS Digital',
+  pdfCarteiraTrabalho: 'Carteira de Trabalho',
+  foto3x4: 'Foto 3x4',
+  certificadoReservista: 'Certificado Reservista',
+  certidaoCasamento: 'Certidao Casamento',
+  cnhDocumento: 'CNH',
+  comprovantePis: 'Comprovante PIS',
+  certidaoFilhos: 'Certidao Nascimento Filhos'
+};
+
+// ============================================================
 // SALVAR ARQUIVO NO DRIVE
 // ============================================================
 function saveFileToDrive(folder, fileObj, fieldName) {
   try {
+    // Extrair extensão do arquivo original
+    const ext = fileObj.name.replace(/.*\./, '.').toLowerCase();
+    // Nome descritivo baseado no campo
+    const baseName = fieldName.replace(/_\d+$/, ''); // remove sufixo _1, _2 para múltiplos
+    const label = FILE_LABELS[baseName] || fieldName;
+    const suffix = fieldName.match(/_(\d+)$/) ? ' ' + fieldName.match(/_(\d+)$/)[1] : '';
+    const fileName = label + suffix + ext;
+
     const blob = Utilities.newBlob(
       Utilities.base64Decode(fileObj.data),
       fileObj.type,
-      fileObj.name
+      fileName
     );
     const file = folder.createFile(blob);
     file.setDescription('Campo: ' + fieldName);
+    // Permitir visualização por qualquer pessoa com o link
+    file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
     return file.getUrl();
   } catch (e) {
     Logger.log('Erro ao salvar arquivo ' + fieldName + ': ' + e.toString());
