@@ -68,6 +68,42 @@ function doPost(e) {
     const files = data.files;
     const nomeColaborador = data.nomeColaborador || 'SemNome';
 
+    // === VALIDAÇÃO: Todos os campos obrigatórios devem estar preenchidos ===
+    const camposObrigatorios = [
+      'nomeCompleto', 'telefone', 'dataNascimento', 'sexo', 'estadoCivil',
+      'nomePai', 'nomeMae', 'rg', 'cpf', 'motorista', 'emailColaborador',
+      'endereco', 'bairro', 'cidadeEstado', 'escolaridade', 'contaItau',
+      'filhos', 'declaracao'
+    ];
+
+    const camposFaltando = camposObrigatorios.filter(c => !formData[c] || String(formData[c]).trim() === '');
+    if (camposFaltando.length > 0) {
+      return ContentService
+        .createTextOutput(JSON.stringify({ status: 'error', message: 'Campos obrigatórios não preenchidos: ' + camposFaltando.join(', ') }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
+    // Validar arquivos obrigatórios
+    const arquivosObrigatorios = ['comprovanteResidencia', 'comprovanteEscolaridade', 'ctpsDigital', 'pdfCarteiraTrabalho', 'foto3x4'];
+    // Condicionais
+    if (formData.sexo === 'Masculino') arquivosObrigatorios.push('certificadoReservista');
+    if (formData.estadoCivil === 'Casado(a)' || formData.estadoCivil === 'União estável') arquivosObrigatorios.push('certidaoCasamento');
+    if (formData.motorista === 'Sim') arquivosObrigatorios.push('cnhDocumento');
+    if (formData.filhos === 'Sim') arquivosObrigatorios.push('certidaoFilhos');
+
+    const arquivosFaltando = arquivosObrigatorios.filter(a => !files || !files[a]);
+    if (arquivosFaltando.length > 0) {
+      return ContentService
+        .createTextOutput(JSON.stringify({ status: 'error', message: 'Documentos obrigatórios não enviados: ' + arquivosFaltando.join(', ') }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
+    if (formData.declaracao !== 'Sim') {
+      return ContentService
+        .createTextOutput(JSON.stringify({ status: 'error', message: 'A declaração deve ser aceita (Sim).' }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
     // Criar subpasta no Drive com o nome do colaborador
     const mainFolder = DriveApp.getFolderById(DRIVE_FOLDER_ID);
     const timestamp = Utilities.formatDate(new Date(), 'America/Sao_Paulo', 'yyyy-MM-dd_HH-mm');

@@ -150,6 +150,25 @@ async function loadCadastros() {
                     obj[col] = row[i] || '';
                 });
                 return obj;
+            }).filter(cad => {
+                // Só exibir cadastros completos (campos e docs obrigatórios preenchidos)
+                const camposObrig = ['nomeCompleto', 'telefone', 'dataNascimento', 'sexo', 'estadoCivil',
+                    'nomePai', 'nomeMae', 'rg', 'cpf', 'motorista', 'emailColaborador',
+                    'endereco', 'bairro', 'cidadeEstado', 'escolaridade', 'contaItau', 'filhos', 'declaracao'];
+                const todosPreenchidos = camposObrig.every(c => cad[c] && String(cad[c]).trim() !== '');
+
+                // Docs obrigatórios fixos
+                const docsObrig = ['linkResidencia', 'linkEscolaridade', 'linkCtps', 'linkCarteira', 'linkFoto'];
+                const todosDocsFixos = docsObrig.every(d => cad[d] && String(cad[d]).trim() !== '');
+
+                // Docs condicionais
+                let docsCondOk = true;
+                if (cad.sexo === 'Masculino' && (!cad.linkReservista || !String(cad.linkReservista).trim())) docsCondOk = false;
+                if ((cad.estadoCivil === 'Casado(a)' || cad.estadoCivil === 'União estável') && (!cad.linkCasamento || !String(cad.linkCasamento).trim())) docsCondOk = false;
+                if (cad.motorista === 'Sim' && (!cad.linkCnh || !String(cad.linkCnh).trim())) docsCondOk = false;
+                if (cad.filhos === 'Sim' && (!cad.linkFilhos || !String(cad.linkFilhos).trim())) docsCondOk = false;
+
+                return todosPreenchidos && todosDocsFixos && docsCondOk;
             });
 
             filteredCadastros = [...cadastros];
