@@ -154,6 +154,9 @@ function navigateToHash() {
         case 'aprovados':
             mostrarAprovados(true);
             break;
+        case 'formulario':
+            mostrarFormulario(true);
+            break;
         case 'links':
             mostrarLinks(true);
             break;
@@ -917,6 +920,7 @@ function mostrarAprovados(skipPush) {
     document.getElementById('loadingState').style.display = 'none';
     document.getElementById('emptyState').style.display = 'none';
     document.getElementById('linksSection').style.display = 'none';
+    document.getElementById('formularioSection').style.display = 'none';
     document.getElementById('aprovadosSection').style.display = 'block';
 
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
@@ -928,6 +932,33 @@ function mostrarAprovados(skipPush) {
     loadCadastros();
 }
 
+function mostrarFormulario(skipPush) {
+    currentSection = 'formulario';
+    if (!skipPush) history.pushState(null, '', '#formulario');
+
+    document.getElementById('contentArea').style.display = 'none';
+    document.getElementById('loadingState').style.display = 'none';
+    document.getElementById('emptyState').style.display = 'none';
+    document.getElementById('aprovadosSection').style.display = 'none';
+    document.getElementById('linksSection').style.display = 'none';
+    document.getElementById('formularioSection').style.display = 'block';
+
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.querySelectorAll('.nav-item')[2].classList.add('active');
+
+    document.querySelector('.top-bar h2').textContent = 'Novo Cadastro';
+}
+
+function carregarFormulario() {
+    const empresa = document.getElementById('formularioEmpresa').value;
+    const iframe = document.getElementById('formularioFrame');
+    if (empresa) {
+        iframe.src = 'index.html?empresa=' + empresa;
+    } else {
+        iframe.src = '';
+    }
+}
+
 function mostrarLinks(skipPush) {
     currentSection = 'links';
     if (!skipPush) history.pushState(null, '', '#links');
@@ -936,10 +967,11 @@ function mostrarLinks(skipPush) {
     document.getElementById('loadingState').style.display = 'none';
     document.getElementById('emptyState').style.display = 'none';
     document.getElementById('aprovadosSection').style.display = 'none';
+    document.getElementById('formularioSection').style.display = 'none';
     document.getElementById('linksSection').style.display = 'block';
 
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    document.querySelectorAll('.nav-item')[3].classList.add('active');
+    document.querySelectorAll('.nav-item')[4].classList.add('active');
 
     document.querySelector('.top-bar h2').textContent = 'Links dos Formulários';
 }
@@ -950,6 +982,7 @@ function mostrarCadastros(skipPush) {
 
     document.getElementById('linksSection').style.display = 'none';
     document.getElementById('aprovadosSection').style.display = 'none';
+    document.getElementById('formularioSection').style.display = 'none';
     document.getElementById('contentArea').style.display = 'flex';
 
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
