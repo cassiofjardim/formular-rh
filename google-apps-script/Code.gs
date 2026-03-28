@@ -160,7 +160,14 @@ function getCadastros() {
 
   const lastRow = sheet.getLastRow();
   const lastCol = sheet.getLastColumn();
-  const data = sheet.getRange(2, 1, lastRow - 1, lastCol).getValues();
+  const allData = sheet.getRange(2, 1, lastRow - 1, lastCol).getValues();
+
+  // Filtrar no servidor: excluir aprovados e retornar só pendentes
+  const headers = sheet.getRange(1, 1, 1, lastCol).getValues()[0];
+  const statusCol = headers.indexOf('Status');
+  const data = statusCol >= 0
+    ? allData.filter(row => String(row[statusCol]).toLowerCase() !== 'aprovado')
+    : allData;
 
   return ContentService
     .createTextOutput(JSON.stringify({ status: 'ok', data: data }))

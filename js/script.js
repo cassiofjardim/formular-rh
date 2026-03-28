@@ -341,7 +341,7 @@ async function handleSubmit(e) {
     btnLoading.style.display = 'inline';
 
     // Mostrar overlay de loading
-    showLoading('Enviando dados e documentos...');
+    showLoading('Preparando documentos...');
 
     try {
         // Detectar empresa
@@ -391,19 +391,27 @@ async function handleSubmit(e) {
             'certidaoFilhos'
         ];
 
+        // Converter todos os arquivos em paralelo (muito mais rápido)
+        const filePromises = [];
         for (const fieldId of fileFields) {
             const input = document.getElementById(fieldId);
             if (input && input.files.length > 0) {
                 if (input.multiple) {
-                    files[fieldId] = [];
-                    for (const file of input.files) {
-                        files[fieldId].push(await fileToBase64(file));
-                    }
+                    filePromises.push(
+                        Promise.all(Array.from(input.files).map(f => fileToBase64(f)))
+                            .then(results => { files[fieldId] = results; })
+                    );
                 } else {
-                    files[fieldId] = await fileToBase64(input.files[0]);
+                    filePromises.push(
+                        fileToBase64(input.files[0]).then(result => { files[fieldId] = result; })
+                    );
                 }
             }
         }
+        await Promise.all(filePromises);
+
+        // Atualizar loading
+        updateLoading('Enviando para o servidor...');
 
         // Enviar para o Google Apps Script
         const payload = {
@@ -462,6 +470,14 @@ function showLoading(message) {
         </div>
     `;
     document.body.appendChild(overlay);
+}
+
+function updateLoading(message) {
+    const overlay = document.getElementById('loadingOverlay');
+    if (overlay) {
+        const p = overlay.querySelector('p');
+        if (p) p.textContent = message;
+    }
 }
 
 function hideLoading() {
