@@ -693,11 +693,12 @@ async function aprovarCadastro() {
             console.log('Sem JSON na resposta:', e);
         }
 
-        cad.status = 'Aprovado';
-        const origIdx = cadastros.findIndex(c => c._row === cad._row);
-        if (origIdx !== -1) cadastros[origIdx].status = 'Aprovado';
+        // Remover o cadastro aprovado das listas imediatamente
+        cadastros = cadastros.filter(c => c._row !== cad._row);
+        filteredCadastros = filteredCadastros.filter(c => c._row !== cad._row);
+        selectedIndex = -1;
 
-        openDetail(selectedIndex);
+        closeDetail();
         renderCards();
         alert(msg);
     } catch (error) {
