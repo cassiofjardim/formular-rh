@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 100">
+  <rect width="400" height="100" rx="4" fill="#6B1A3A"/>
+  <!-- Bottle icon -->
+  <rect x="24" y="20" width="2" height="10" fill="#fff"/>
+  <rect x="20" y="30" width="10" height="4" rx="1" fill="#fff"/>
+  <rect x="21" y="34" width="8" height="46" rx="2" fill="#fff"/>
+  <rect x="18" y="70" width="14" height="10" rx="2" fill="#fff"/>
+  <!-- Brackets -->
+  <text x="38" y="62" font-family="Arial Black, Arial, sans-serif" font-size="44" font-weight="900" fill="#fff" letter-spacing="1">[</text>
+  <text x="56" y="62" font-family="Arial Black, Arial, sans-serif" font-size="44" font-weight="900" fill="#fff" letter-spacing="1">]</text>
+  <!-- BIB text -->
+  <text x="82" y="62" font-family="Arial Black, Arial, sans-serif" font-size="48" font-weight="900" fill="#fff" letter-spacing="3">BIB</text>
+  <!-- BEBIDA IN BOX -->
+  <line x1="210" y1="30" x2="380" y2="30" stroke="#fff" stroke-width="1.5"/>
+  <text x="212" y="54" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#fff" letter-spacing="4">BEBIDA IN BOX</text>
+  <line x1="210" y1="62" x2="380" y2="62" stroke="#fff" stroke-width="1.5"/>
+</svg>

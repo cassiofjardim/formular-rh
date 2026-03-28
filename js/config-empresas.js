@@ -5,32 +5,35 @@
 const EMPRESAS = {
     rigarr1: {
         id: 'rigarr1',
-        nome: 'Rigarr1',
-        nomeCompleto: 'RIGARR LOGISTICS',
-        logo: 'assets/logo-rigarr1.svg',
+        nome: 'Rigarr',
+        nomeCompleto: 'GRUPO RIGARR',
+        subtitulo: 'Logistics & Construction',
+        logo: 'assets/logo-grupo-rigarr.png',
         cores: {
             primary: '#1B2A4A',
             primaryLight: '#2a3f6b',
-            accent: '#C9A84C',
-            accentHover: '#b8972f'
+            accent: '#EFC030',
+            accentHover: '#d4a820'
         }
     },
     rigarr2: {
         id: 'rigarr2',
-        nome: 'Rigarr2',
-        nomeCompleto: 'RIGARR CONSTRUCTION',
-        logo: 'assets/logo-rigarr2.svg',
+        nome: 'BIB',
+        nomeCompleto: 'BIB - BEBIDA IN BOX',
+        subtitulo: 'Bebida in Box',
+        logo: 'assets/logo-bib.svg',
         cores: {
-            primary: '#1A3C2A',
-            primaryLight: '#2a5c3f',
-            accent: '#E8872A',
-            accentHover: '#d0751e'
+            primary: '#6B1A3A',
+            primaryLight: '#8a2550',
+            accent: '#D4A574',
+            accentHover: '#c49060'
         }
     },
     rigarr3: {
         id: 'rigarr3',
-        nome: 'Rigarr3',
-        nomeCompleto: 'RIGARR ENGINEERING',
+        nome: 'Rigarr SPON',
+        nomeCompleto: 'RIGARR SPON',
+        subtitulo: 'SPON',
         logo: 'assets/logo-rigarr3.svg',
         cores: {
             primary: '#5C1A2A',
@@ -41,8 +44,9 @@ const EMPRESAS = {
     },
     rigarr4: {
         id: 'rigarr4',
-        nome: 'Rigarr4',
-        nomeCompleto: 'RIGARR TRANSPORT',
+        nome: 'Rigarr MGON',
+        nomeCompleto: 'RIGARR MGON',
+        subtitulo: 'MGON',
         logo: 'assets/logo-rigarr4.svg',
         cores: {
             primary: '#2A1A4A',
@@ -53,8 +57,9 @@ const EMPRESAS = {
     },
     rigarr5: {
         id: 'rigarr5',
-        nome: 'Rigarr5',
-        nomeCompleto: 'RIGARR SERVICES',
+        nome: 'Rigarr 5',
+        nomeCompleto: 'RIGARR 5',
+        subtitulo: 'Rigarr 5',
         logo: 'assets/logo-rigarr5.svg',
         cores: {
             primary: '#0A3D4A',
