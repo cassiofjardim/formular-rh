@@ -2,7 +2,7 @@
 // CONFIGURAÇÃO
 // ============================================================
 const CONFIG = {
-    APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbxmPuvRlc8tLGerzAGS4C_QFrkeUvLscwEGnKxSc6DPAt4NXd-hAMnPHTsBat6CZzhk/exec'
+    APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbxL1KG7iM9IA4FuhPByItmyeorWl4WURJK02DPM9RRjC5LlM-RFL9UqqoL9iwumxPs4/exec'
 };
 
 // ============================================================
