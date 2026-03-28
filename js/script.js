@@ -244,6 +244,15 @@ function handleConditionalFields(field, value) {
         }
     }
 
+    // Escolaridade → Comprovante de Escolaridade
+    if (field === 'escolaridade') {
+        const escolaridadeDocGroup = document.getElementById('grupoComprovanteEscolaridade');
+        if (value) {
+            escolaridadeDocGroup.style.display = '';
+            escolaridadeDocGroup.classList.add('show');
+        }
+    }
+
     // Filhos → Certidão de Nascimento
     if (field === 'filhos') {
         const filhosDocGroup = document.getElementById('filhosDocGroup');
