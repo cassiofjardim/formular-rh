@@ -21,7 +21,7 @@ const EMPRESAS = {
         nome: 'BIB',
         nomeCompleto: 'BIB - BEBIDA IN BOX',
         subtitulo: 'Bebida in Box',
-        logo: 'assets/logo-bib.svg',
+        logo: 'assets/logo-bib.jpg',
         cores: {
             primary: '#6B1A3A',
             primaryLight: '#8a2550',
@@ -95,4 +95,14 @@ function aplicarTemaEmpresa(empresa) {
 
     // Atualizar título da página
     document.title = 'Checklist Admissional - ' + empresa.nome;
+
+    // Tema especial para BIB (background vinho)
+    const loginScreen = document.querySelector('.login-screen');
+    if (loginScreen && empresa.id === 'rigarr2') {
+        loginScreen.style.background = 'linear-gradient(135deg, #6B1A3A 0%, #4a1028 100%)';
+        const loginCard = document.querySelector('.login-card');
+        if (loginCard) {
+            loginCard.style.background = 'rgba(255,255,255,0.95)';
+        }
+    }
 }

@@ -666,6 +666,33 @@ async function aprovarCadastro() {
 }
 
 // ============================================================
+// NAVEGAÇÃO ENTRE SEÇÕES
+// ============================================================
+function mostrarLinks() {
+    document.getElementById('contentArea').style.display = 'none';
+    document.getElementById('loadingState').style.display = 'none';
+    document.getElementById('emptyState').style.display = 'none';
+    document.getElementById('linksSection').style.display = 'block';
+
+    // Atualizar nav ativo
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.querySelectorAll('.nav-item')[2].classList.add('active');
+
+    // Atualizar título
+    document.querySelector('.top-bar h2').textContent = 'Links dos Formulários';
+}
+
+function mostrarCadastros() {
+    document.getElementById('linksSection').style.display = 'none';
+    document.getElementById('contentArea').style.display = 'flex';
+
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.querySelectorAll('.nav-item')[0].classList.add('active');
+
+    document.querySelector('.top-bar h2').textContent = 'Todos os Cadastros';
+}
+
+// ============================================================
 // COPIAR LINK DO FORMULÁRIO
 // ============================================================
 function copiarLink(empresa) {

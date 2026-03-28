@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel RH - Grupo Rigarr</title>
     <link rel="icon" href="assets/logo-grupo-rigarr.png" type="image/png">
-    <link rel="stylesheet" href="css/style.css?v=14">
-    <link rel="stylesheet" href="css/dashboard.css?v=14">
+    <link rel="stylesheet" href="css/style.css?v=15">
+    <link rel="stylesheet" href="css/dashboard.css?v=15">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -34,7 +34,7 @@
                 <img src="assets/logo-grupo-rigarr.png" alt="Grupo Rigarr" class="sidebar-logo">
             </div>
             <nav class="sidebar-nav">
-                <a href="dashboard.html" class="nav-item active">
+                <a href="#" class="nav-item active" onclick="mostrarCadastros(); return false;">
                     <span class="nav-icon">&#128203;</span>
                     Todos os Cadastros
                 </a>
@@ -42,62 +42,12 @@
                     <span class="nav-icon">&#9997;</span>
                     Novo Cadastro
                 </a>
+                <a href="#" class="nav-item" onclick="mostrarLinks(); return false;">
+                    <span class="nav-icon">&#128279;</span>
+                    Links Formulários
+                </a>
             </nav>
 
-            <div class="sidebar-links">
-                <div class="sidebar-links-title">Enviar formulário</div>
-                <div class="link-card" style="border-left:3px solid #EFC030;" onclick="copiarLink('rigarr1')">
-                    <div class="link-card-header">
-                        <div class="link-card-dot" style="background:#1B2A4A;">R</div>
-                        <div class="link-card-info">
-                            <span class="link-card-nome">Rigarr</span>
-                            <span class="link-card-sub">Logistics & Construction</span>
-                        </div>
-                    </div>
-                    <span class="link-card-btn">Copiar link</span>
-                </div>
-                <div class="link-card" style="border-left:3px solid #D4A574;" onclick="copiarLink('rigarr2')">
-                    <div class="link-card-header">
-                        <div class="link-card-dot" style="background:#6B1A3A;">B</div>
-                        <div class="link-card-info">
-                            <span class="link-card-nome">BIB</span>
-                            <span class="link-card-sub">Bebida in Box</span>
-                        </div>
-                    </div>
-                    <span class="link-card-btn">Copiar link</span>
-                </div>
-                <div class="link-card" style="border-left:3px solid #9A9AA8;" onclick="copiarLink('rigarr3')">
-                    <div class="link-card-header">
-                        <div class="link-card-dot" style="background:#5C1A2A;">SP</div>
-                        <div class="link-card-info">
-                            <span class="link-card-nome">Rigarr SPON</span>
-                            <span class="link-card-sub">SPON</span>
-                        </div>
-                    </div>
-                    <span class="link-card-btn">Copiar link</span>
-                </div>
-                <div class="link-card" style="border-left:3px solid #3CC0B0;" onclick="copiarLink('rigarr4')">
-                    <div class="link-card-header">
-                        <div class="link-card-dot" style="background:#2A1A4A;">MG</div>
-                        <div class="link-card-info">
-                            <span class="link-card-nome">Rigarr MGON</span>
-                            <span class="link-card-sub">MGON</span>
-                        </div>
-                    </div>
-                    <span class="link-card-btn">Copiar link</span>
-                </div>
-                <div class="link-card" style="border-left:3px solid #E85A5A;" onclick="copiarLink('rigarr5')">
-                    <div class="link-card-header">
-                        <div class="link-card-dot" style="background:#0A3D4A;">R5</div>
-                        <div class="link-card-info">
-                            <span class="link-card-nome">Rigarr 5</span>
-                            <span class="link-card-sub">Rigarr 5</span>
-                        </div>
-                    </div>
-                    <span class="link-card-btn">Copiar link</span>
-                </div>
-                <div id="copyFeedback" class="copy-feedback" style="display:none;">Link copiado!</div>
-            </div>
             <div class="sidebar-footer">
                 <div class="user-info">
                     <span id="user-name" class="user-name"></span>
@@ -178,6 +128,72 @@
                     </div>
                 </div>
             </div>
+
+            <!-- SEÇÃO: LINKS DOS FORMULÁRIOS -->
+            <div id="linksSection" class="links-section" style="display:none;">
+                <div class="links-header">
+                    <h2>Links dos Formulários</h2>
+                    <p>Clique no card para copiar o link e enviar ao candidato</p>
+                </div>
+                <div class="links-grid">
+                    <div class="empresa-card" onclick="copiarLink('rigarr1')">
+                        <div class="empresa-card-bar" style="background:#1B2A4A;"></div>
+                        <div class="empresa-card-body">
+                            <img src="assets/logo-grupo-rigarr.png" class="empresa-card-logo" alt="Rigarr">
+                            <div class="empresa-card-info">
+                                <h3>Rigarr</h3>
+                                <span>Logistics & Construction</span>
+                            </div>
+                            <button class="empresa-card-copy">Copiar link</button>
+                        </div>
+                    </div>
+                    <div class="empresa-card empresa-card-bib" onclick="copiarLink('rigarr2')">
+                        <div class="empresa-card-bar" style="background:#6B1A3A;"></div>
+                        <div class="empresa-card-body" style="background:linear-gradient(135deg, #6B1A3A 0%, #4a1028 100%);">
+                            <img src="assets/logo-bib.jpg" class="empresa-card-logo" alt="BIB" style="background:#fff; border-radius:8px; padding:4px;">
+                            <div class="empresa-card-info" style="color:#fff;">
+                                <h3 style="color:#fff;">BIB</h3>
+                                <span style="color:rgba(255,255,255,0.7);">Bebida in Box</span>
+                            </div>
+                            <button class="empresa-card-copy" style="background:#D4A574; color:#fff; border-color:#D4A574;">Copiar link</button>
+                        </div>
+                    </div>
+                    <div class="empresa-card" onclick="copiarLink('rigarr3')">
+                        <div class="empresa-card-bar" style="background:#5C1A2A;"></div>
+                        <div class="empresa-card-body">
+                            <img src="assets/logo-rigarr3.svg" class="empresa-card-logo" alt="SPON">
+                            <div class="empresa-card-info">
+                                <h3>Rigarr SPON</h3>
+                                <span>SPON</span>
+                            </div>
+                            <button class="empresa-card-copy">Copiar link</button>
+                        </div>
+                    </div>
+                    <div class="empresa-card" onclick="copiarLink('rigarr4')">
+                        <div class="empresa-card-bar" style="background:#2A1A4A;"></div>
+                        <div class="empresa-card-body">
+                            <img src="assets/logo-rigarr4.svg" class="empresa-card-logo" alt="MGON">
+                            <div class="empresa-card-info">
+                                <h3>Rigarr MGON</h3>
+                                <span>MGON</span>
+                            </div>
+                            <button class="empresa-card-copy">Copiar link</button>
+                        </div>
+                    </div>
+                    <div class="empresa-card" onclick="copiarLink('rigarr5')">
+                        <div class="empresa-card-bar" style="background:#0A3D4A;"></div>
+                        <div class="empresa-card-body">
+                            <img src="assets/logo-rigarr5.svg" class="empresa-card-logo" alt="Rigarr 5">
+                            <div class="empresa-card-info">
+                                <h3>Rigarr 5</h3>
+                                <span>Rigarr 5</span>
+                            </div>
+                            <button class="empresa-card-copy">Copiar link</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="copyFeedback" class="copy-feedback-float" style="display:none;">Link copiado!</div>
+            </div>
         </main>
     </div>
 
@@ -196,7 +212,7 @@
         </div>
     </div>
 
-    <script src="js/config-empresas.js?v=14"></script>
-    <script src="js/dashboard.js?v=14"></script>
+    <script src="js/config-empresas.js?v=15"></script>
+    <script src="js/dashboard.js?v=15"></script>
 </body>
 </html>

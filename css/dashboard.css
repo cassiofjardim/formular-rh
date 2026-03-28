@@ -682,6 +682,122 @@
     color: var(--error);
 }
 
+/* ===== LINKS SECTION ===== */
+.links-section {
+    padding: 40px;
+    overflow-y: auto;
+    height: calc(100vh - var(--topbar-height));
+}
+
+.links-header {
+    margin-bottom: 28px;
+}
+
+.links-header h2 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 4px;
+}
+
+.links-header p {
+    font-size: 0.85rem;
+    color: #999;
+}
+
+.links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+}
+
+.empresa-card {
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid #eee;
+    background: #fff;
+}
+
+.empresa-card:hover {
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    transform: translateY(-2px);
+}
+
+.empresa-card-bar {
+    height: 5px;
+}
+
+.empresa-card-body {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.empresa-card-logo {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.empresa-card-info {
+    flex: 1;
+}
+
+.empresa-card-info h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #222;
+    margin: 0 0 2px;
+}
+
+.empresa-card-info span {
+    font-size: 0.75rem;
+    color: #999;
+}
+
+.empresa-card-copy {
+    padding: 8px 16px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: #fff;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #555;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+}
+
+.empresa-card:hover .empresa-card-copy {
+    background: #222;
+    color: #fff;
+    border-color: #222;
+}
+
+.empresa-card-bib:hover .empresa-card-copy {
+    background: #D4A574 !important;
+    border-color: #D4A574 !important;
+}
+
+.copy-feedback-float {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 24px;
+    background: #222;
+    color: #fff;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    z-index: 999;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1024px) {
     .detail-panel {
