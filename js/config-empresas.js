@@ -21,7 +21,7 @@ const EMPRESAS = {
         nome: 'BIB',
         nomeCompleto: 'BIB - BEBIDA IN BOX',
         subtitulo: 'Bebida in Box',
-        logo: 'assets/logo-bib.jpg',
+        logo: 'assets/bib_logo.png',
         cores: {
             primary: '#6B1A3A',
             primaryLight: '#8a2550',
