@@ -133,9 +133,9 @@ function aplicarTemaEmpresa(empresa) {
             appForm.style.background = tema.bg;
         }
 
-        // Logo ocupa largura total como banner
+        // Logo ocupa largura total como banner (só para banners reais, não logos PNG pequenos)
         const formLogo = document.querySelector('.form-logo');
-        if (formLogo) {
+        if (formLogo && empresa.banner && empresa.banner !== empresa.logo) {
             formLogo.style.width = '100%';
             formLogo.style.maxWidth = '100%';
             formLogo.style.borderRadius = '12px';
