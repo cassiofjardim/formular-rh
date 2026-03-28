@@ -211,6 +211,7 @@ async function loadCadastros() {
                 });
                 return obj;
             });
+            aprovados.reverse();
             filteredAprovados = [...aprovados];
 
             cadastros = allRows.map((row) => {
@@ -251,6 +252,7 @@ async function loadCadastros() {
                 return todosPreenchidos && todosDocsFixos && docsCondOk;
             });
 
+            cadastros.reverse();
             filteredCadastros = [...cadastros];
             renderCards();
             loading.style.display = 'none';
