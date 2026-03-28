@@ -9,6 +9,7 @@ const EMPRESAS = {
         nomeCompleto: 'GRUPO RIGARR',
         subtitulo: 'Logistics & Construction',
         logo: 'assets/logo-grupo-rigarr.png',
+        banner: 'assets/banner-rigarr1.svg',
         cores: {
             primary: '#1B2A4A',
             primaryLight: '#2a3f6b',
@@ -22,6 +23,7 @@ const EMPRESAS = {
         nomeCompleto: 'BIB - BEBIDA IN BOX',
         subtitulo: 'Bebida in Box',
         logo: 'assets/bib_logo.png',
+        banner: 'assets/bib_logo.png',
         cores: {
             primary: '#6B1A3A',
             primaryLight: '#8a2550',
@@ -35,6 +37,7 @@ const EMPRESAS = {
         nomeCompleto: 'RIGARR SPON',
         subtitulo: 'SPON',
         logo: 'assets/logo-rigarr3.svg',
+        banner: 'assets/banner-rigarr3.svg',
         cores: {
             primary: '#5C1A2A',
             primaryLight: '#7d2a3d',
@@ -48,6 +51,7 @@ const EMPRESAS = {
         nomeCompleto: 'RIGARR MGON',
         subtitulo: 'MGON',
         logo: 'assets/logo-rigarr4.svg',
+        banner: 'assets/banner-rigarr4.svg',
         cores: {
             primary: '#2A1A4A',
             primaryLight: '#3d2a6b',
@@ -61,6 +65,7 @@ const EMPRESAS = {
         nomeCompleto: 'RIGARR 5',
         subtitulo: 'Rigarr 5',
         logo: 'assets/logo-rigarr5.svg',
+        banner: 'assets/banner-rigarr5.svg',
         cores: {
             primary: '#0A3D4A',
             primaryLight: '#155a6b',
@@ -88,9 +93,14 @@ function aplicarTemaEmpresa(empresa) {
     root.style.setProperty('--accent', empresa.cores.accent);
     root.style.setProperty('--accent-hover', empresa.cores.accentHover);
 
-    // Atualizar logos
-    document.querySelectorAll('.login-logo, .form-logo, .sidebar-logo').forEach(img => {
+    // Atualizar logos (sidebar e login usam logo pequeno)
+    document.querySelectorAll('.login-logo, .sidebar-logo').forEach(img => {
         img.src = empresa.logo;
+    });
+
+    // Formulário usa banner (imagem larga tipo header)
+    document.querySelectorAll('.form-logo').forEach(img => {
+        img.src = empresa.banner || empresa.logo;
     });
 
     // Atualizar título da página

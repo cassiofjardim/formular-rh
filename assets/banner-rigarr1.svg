@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200">
+  <rect width="800" height="200" rx="12" fill="#1B2A4A"/>
+  <!-- Pattern overlay -->
+  <rect width="800" height="200" rx="12" fill="url(#g1)" opacity="0.15"/>
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fff"/>
+      <stop offset="100%" stop-color="#000"/>
+    </linearGradient>
+  </defs>
+  <!-- Icon box -->
+  <rect x="220" y="40" width="80" height="80" rx="14" fill="rgba(255,255,255,0.15)"/>
+  <text x="260" y="95" font-family="Arial Black, Arial" font-weight="900" font-size="42" fill="#EFC030" text-anchor="middle">R1</text>
+  <!-- Text -->
+  <text x="320" y="92" font-family="Arial Black, Arial" font-weight="900" font-size="52" fill="#fff" letter-spacing="3">RIGARR</text>
+  <!-- Subtitle -->
+  <text x="400" y="150" font-family="Arial, sans-serif" font-weight="600" font-size="16" fill="rgba(255,255,255,0.6)" text-anchor="middle" letter-spacing="6">LOGISTICS &amp; CONSTRUCTION</text>
+  <!-- Bottom line -->
+  <rect x="250" y="125" width="300" height="2" fill="#EFC030" opacity="0.5"/>
+</svg>
