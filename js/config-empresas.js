@@ -139,17 +139,6 @@ function aplicarTemaEmpresa(empresa) {
             formLogo.style.width = '100%';
             formLogo.style.maxWidth = '100%';
             formLogo.style.borderRadius = '12px';
-
-            // Para logos PNG (não-banner), criar wrapper com fundo colorido
-            if (empresa.banner && empresa.banner.endsWith('.png') && empresa.id !== 'rigarr2') {
-                const wrapper = document.createElement('div');
-                wrapper.style.cssText = 'background:' + empresa.cores.accent + ';border-radius:12px;padding:40px 60px;display:flex;align-items:center;justify-content:center;';
-                formLogo.parentNode.insertBefore(wrapper, formLogo);
-                formLogo.style.width = '280px';
-                formLogo.style.maxWidth = '280px';
-                formLogo.style.filter = 'brightness(1.1)';
-                wrapper.appendChild(formLogo);
-            }
         }
 
         // Barra de seções com cor accent da empresa
