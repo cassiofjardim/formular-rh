@@ -9,12 +9,12 @@ const EMPRESAS = {
         nomeCompleto: 'GRUPO RIGARR',
         subtitulo: 'Logistics & Construction',
         logo: 'assets/logo-grupo-rigarr.png',
-        banner: 'assets/banner-rigarr1.svg',
+        banner: 'assets/logo-grupo-rigarr.png',
         cores: {
-            primary: '#1B2A4A',
-            primaryLight: '#2a3f6b',
-            accent: '#EFC030',
-            accentHover: '#d4a820'
+            primary: '#C9A84C',
+            primaryLight: '#d4b85c',
+            accent: '#1B2A4A',
+            accentHover: '#0f1a30'
         }
     },
     rigarr2: {
@@ -108,7 +108,7 @@ function aplicarTemaEmpresa(empresa) {
 
     // Backgrounds suaves e temas por empresa
     const temas = {
-        rigarr1: { bg: '#f0f2f5', loginBg: 'linear-gradient(135deg, #1B2A4A 0%, #0f1a30 100%)', sectionColor: '#EFC030' },
+        rigarr1: { bg: '#faf8f0', loginBg: 'linear-gradient(135deg, #C9A84C 0%, #a08530 100%)', sectionColor: '#C9A84C' },
         rigarr2: { bg: '#f9f0f3', loginBg: 'linear-gradient(135deg, #6B1A3A 0%, #4a1028 100%)', sectionColor: '#D4A574' },
         rigarr3: { bg: '#f0f5f2', loginBg: 'linear-gradient(135deg, #1A5C3A 0%, #103d25 100%)', sectionColor: '#6BC090' },
         rigarr4: { bg: '#f2f0f7', loginBg: 'linear-gradient(135deg, #2A1A4A 0%, #1a1030 100%)', sectionColor: '#3CC0B0' },

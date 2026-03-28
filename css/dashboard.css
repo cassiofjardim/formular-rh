@@ -26,7 +26,7 @@
 
 .login-card-top {
     background: linear-gradient(135deg, #1B2A4A 0%, #0f1a30 100%);
-    padding: 36px 40px 28px;
+    padding: 40px 40px 32px;
     text-align: center;
 }
 
@@ -44,7 +44,7 @@
 .login-card-body h1 {
     font-size: 1.5rem;
     font-weight: 700;
-    color: #1B2A4A;
+    color: #C9A84C;
     margin-bottom: 6px;
 }
 
@@ -80,7 +80,7 @@
 }
 
 .login-card-dashboard .btn-google-dev:hover {
-    border-color: #1B2A4A;
+    border-color: #C9A84C;
     background: #f8f9fa;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     transform: translateY(-1px);
