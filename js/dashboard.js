@@ -724,7 +724,12 @@ async function aprovarCadastro() {
             console.log('Sem JSON na resposta:', e);
         }
 
-        // Remover o cadastro aprovado das listas imediatamente
+        // Mover o cadastro para a lista de aprovados
+        cad.status = 'Aprovado';
+        aprovados.push(cad);
+        filteredAprovados = [...aprovados];
+
+        // Remover da lista de pendentes/incompletos
         cadastros = cadastros.filter(c => c._row !== cad._row);
         filteredCadastros = filteredCadastros.filter(c => c._row !== cad._row);
         selectedIndex = -1;
@@ -892,7 +897,8 @@ function mostrarAprovados() {
 
     document.querySelector('.top-bar h2').textContent = 'Formulários Aprovados';
 
-    renderAprovados();
+    // Recarregar dados do servidor para garantir lista atualizada
+    loadCadastros();
 }
 
 function mostrarLinks() {
@@ -919,6 +925,9 @@ function mostrarCadastros() {
     document.querySelectorAll('.nav-item')[0].classList.add('active');
 
     document.querySelector('.top-bar h2').textContent = 'Todos os Cadastros';
+
+    // Recarregar dados do servidor
+    loadCadastros();
 }
 
 // ============================================================
