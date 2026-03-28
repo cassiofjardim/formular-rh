@@ -96,31 +96,44 @@ function aplicarTemaEmpresa(empresa) {
     // Atualizar título da página
     document.title = 'Checklist Admissional - ' + empresa.nome;
 
-    // Tema especial para BIB (background vinho)
-    if (empresa.id === 'rigarr2') {
+    // Backgrounds suaves e temas por empresa
+    const temas = {
+        rigarr1: { bg: '#f0f2f5', loginBg: 'linear-gradient(135deg, #1B2A4A 0%, #0f1a30 100%)', sectionColor: '#EFC030' },
+        rigarr2: { bg: '#f9f0f3', loginBg: 'linear-gradient(135deg, #6B1A3A 0%, #4a1028 100%)', sectionColor: '#D4A574' },
+        rigarr3: { bg: '#f5f0f2', loginBg: 'linear-gradient(135deg, #5C1A2A 0%, #3d1019 100%)', sectionColor: '#9A9AA8' },
+        rigarr4: { bg: '#f2f0f7', loginBg: 'linear-gradient(135deg, #2A1A4A 0%, #1a1030 100%)', sectionColor: '#3CC0B0' },
+        rigarr5: { bg: '#f0f5f6', loginBg: 'linear-gradient(135deg, #0A3D4A 0%, #062830 100%)', sectionColor: '#E85A5A' }
+    };
+
+    const tema = temas[empresa.id];
+    if (tema) {
+        // Login screen com gradiente da empresa
         const loginScreen = document.querySelector('.login-screen');
         if (loginScreen) {
-            loginScreen.style.background = 'linear-gradient(135deg, #6B1A3A 0%, #4a1028 100%)';
+            loginScreen.style.background = tema.loginBg;
             const loginCard = document.querySelector('.login-card');
             if (loginCard) {
                 loginCard.style.background = 'rgba(255,255,255,0.95)';
             }
         }
-        // Background suave vinho no formulário
+
+        // Background suave no formulário
         const appForm = document.querySelector('.app-form');
         if (appForm) {
-            appForm.style.background = '#f9f0f3';
+            appForm.style.background = tema.bg;
         }
-        // Logo BIB ocupa largura total como banner
+
+        // Logo ocupa largura total como banner
         const formLogo = document.querySelector('.form-logo');
         if (formLogo) {
             formLogo.style.width = '100%';
             formLogo.style.maxWidth = '100%';
             formLogo.style.borderRadius = '12px';
         }
-        // Barra de seções com tom vinho suave
+
+        // Barra de seções com cor accent da empresa
         document.querySelectorAll('.section-title').forEach(el => {
-            el.style.borderBottomColor = '#D4A574';
+            el.style.borderBottomColor = tema.sectionColor;
         });
     }
 }
