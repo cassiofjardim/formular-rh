@@ -140,8 +140,33 @@ function devLogin() {
     document.getElementById('user-email').textContent = currentUser.email;
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('app').style.display = 'flex';
-    loadCadastros();
+
+    // Navegar para a seção indicada no hash da URL
+    navigateToHash();
 }
+
+// ============================================================
+// NAVEGAÇÃO POR HASH (URL)
+// ============================================================
+function navigateToHash() {
+    const hash = window.location.hash.replace('#', '') || 'cadastros';
+    switch (hash) {
+        case 'aprovados':
+            mostrarAprovados(true);
+            break;
+        case 'links':
+            mostrarLinks(true);
+            break;
+        default:
+            mostrarCadastros(true);
+            break;
+    }
+}
+
+// Botão voltar/avançar do navegador
+window.addEventListener('popstate', () => {
+    if (currentUser) navigateToHash();
+});
 
 function logout() {
     currentUser = null;
@@ -884,8 +909,10 @@ function filterAprovadosCards() {
 // ============================================================
 // NAVEGAÇÃO - MOSTRAR APROVADOS
 // ============================================================
-function mostrarAprovados() {
+function mostrarAprovados(skipPush) {
     currentSection = 'aprovados';
+    if (!skipPush) history.pushState(null, '', '#aprovados');
+
     document.getElementById('contentArea').style.display = 'none';
     document.getElementById('loadingState').style.display = 'none';
     document.getElementById('emptyState').style.display = 'none';
@@ -901,8 +928,10 @@ function mostrarAprovados() {
     loadCadastros();
 }
 
-function mostrarLinks() {
+function mostrarLinks(skipPush) {
     currentSection = 'links';
+    if (!skipPush) history.pushState(null, '', '#links');
+
     document.getElementById('contentArea').style.display = 'none';
     document.getElementById('loadingState').style.display = 'none';
     document.getElementById('emptyState').style.display = 'none';
@@ -915,8 +944,10 @@ function mostrarLinks() {
     document.querySelector('.top-bar h2').textContent = 'Links dos Formulários';
 }
 
-function mostrarCadastros() {
+function mostrarCadastros(skipPush) {
     currentSection = 'cadastros';
+    if (!skipPush) history.pushState(null, '', '#cadastros');
+
     document.getElementById('linksSection').style.display = 'none';
     document.getElementById('aprovadosSection').style.display = 'none';
     document.getElementById('contentArea').style.display = 'flex';
