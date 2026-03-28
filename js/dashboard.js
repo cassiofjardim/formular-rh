@@ -214,7 +214,7 @@ function renderCards() {
 
         const card = document.createElement('div');
         card.className = 'card' + (index === selectedIndex ? ' active' : '');
-        card.style.borderLeft = '3px solid ' + accentColor;
+        card.style.borderLeft = '3px solid ' + primaryColor;
         card.onclick = () => openDetail(index);
 
         card.innerHTML = `
@@ -225,7 +225,7 @@ function renderCards() {
                         <div class="card-title">${escapeHtml(cad.nomeCompleto || 'Sem nome')}</div>
                         <div class="card-subtitle">${escapeHtml(cad.cidadeEstado || '')}${cad.bairro ? ' - ' + escapeHtml(cad.bairro) : ''}</div>
                     </div>
-                    <span class="card-empresa" style="background:${accentColor};">${escapeHtml(cad.empresa || '')}</span>
+                    <span class="card-empresa" style="background:${primaryColor};">${escapeHtml(cad.empresa || '')}</span>
                 </div>
                 <div class="card-body">
                     <div class="card-body-item">
