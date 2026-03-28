@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel RH - Grupo Rigarr</title>
     <link rel="icon" href="assets/logo-grupo-rigarr.png" type="image/png">
-    <link rel="stylesheet" href="css/style.css?v=12">
-    <link rel="stylesheet" href="css/dashboard.css?v=12">
+    <link rel="stylesheet" href="css/style.css?v=13">
+    <link rel="stylesheet" href="css/dashboard.css?v=13">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -43,6 +43,61 @@
                     Novo Cadastro
                 </a>
             </nav>
+
+            <div class="sidebar-links">
+                <div class="sidebar-links-title">Enviar formulário</div>
+                <div class="link-card" style="border-left:3px solid #C9A84C;" onclick="copiarLink('rigarr1')">
+                    <div class="link-card-header">
+                        <div class="link-card-dot" style="background:#1B2A4A;">R1</div>
+                        <div class="link-card-info">
+                            <span class="link-card-nome">Rigarr1</span>
+                            <span class="link-card-sub">Logistics</span>
+                        </div>
+                    </div>
+                    <span class="link-card-btn">Copiar link</span>
+                </div>
+                <div class="link-card" style="border-left:3px solid #E8872A;" onclick="copiarLink('rigarr2')">
+                    <div class="link-card-header">
+                        <div class="link-card-dot" style="background:#1A3C2A;">R2</div>
+                        <div class="link-card-info">
+                            <span class="link-card-nome">Rigarr2</span>
+                            <span class="link-card-sub">Construction</span>
+                        </div>
+                    </div>
+                    <span class="link-card-btn">Copiar link</span>
+                </div>
+                <div class="link-card" style="border-left:3px solid #9A9AA8;" onclick="copiarLink('rigarr3')">
+                    <div class="link-card-header">
+                        <div class="link-card-dot" style="background:#5C1A2A;">R3</div>
+                        <div class="link-card-info">
+                            <span class="link-card-nome">Rigarr3</span>
+                            <span class="link-card-sub">Engineering</span>
+                        </div>
+                    </div>
+                    <span class="link-card-btn">Copiar link</span>
+                </div>
+                <div class="link-card" style="border-left:3px solid #3CC0B0;" onclick="copiarLink('rigarr4')">
+                    <div class="link-card-header">
+                        <div class="link-card-dot" style="background:#2A1A4A;">R4</div>
+                        <div class="link-card-info">
+                            <span class="link-card-nome">Rigarr4</span>
+                            <span class="link-card-sub">Transport</span>
+                        </div>
+                    </div>
+                    <span class="link-card-btn">Copiar link</span>
+                </div>
+                <div class="link-card" style="border-left:3px solid #E85A5A;" onclick="copiarLink('rigarr5')">
+                    <div class="link-card-header">
+                        <div class="link-card-dot" style="background:#0A3D4A;">R5</div>
+                        <div class="link-card-info">
+                            <span class="link-card-nome">Rigarr5</span>
+                            <span class="link-card-sub">Services</span>
+                        </div>
+                    </div>
+                    <span class="link-card-btn">Copiar link</span>
+                </div>
+                <div id="copyFeedback" class="copy-feedback" style="display:none;">Link copiado!</div>
+            </div>
             <div class="sidebar-footer">
                 <div class="user-info">
                     <span id="user-name" class="user-name"></span>
@@ -141,7 +196,7 @@
         </div>
     </div>
 
-    <script src="js/config-empresas.js?v=12"></script>
-    <script src="js/dashboard.js?v=12"></script>
+    <script src="js/config-empresas.js?v=13"></script>
+    <script src="js/dashboard.js?v=13"></script>
 </body>
 </html>

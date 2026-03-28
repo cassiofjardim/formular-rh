@@ -666,6 +666,34 @@ async function aprovarCadastro() {
 }
 
 // ============================================================
+// COPIAR LINK DO FORMULÁRIO
+// ============================================================
+function copiarLink(empresa) {
+    const baseUrl = window.location.origin + window.location.pathname.replace('dashboard.html', '');
+    const link = baseUrl + 'index.html?empresa=' + empresa;
+
+    navigator.clipboard.writeText(link).then(() => {
+        const feedback = document.getElementById('copyFeedback');
+        feedback.style.display = 'block';
+        feedback.textContent = 'Link ' + empresa.toUpperCase() + ' copiado!';
+        setTimeout(() => { feedback.style.display = 'none'; }, 2000);
+    }).catch(() => {
+        // Fallback para navegadores sem clipboard API
+        const temp = document.createElement('input');
+        document.body.appendChild(temp);
+        temp.value = link;
+        temp.select();
+        document.execCommand('copy');
+        document.body.removeChild(temp);
+
+        const feedback = document.getElementById('copyFeedback');
+        feedback.style.display = 'block';
+        feedback.textContent = 'Link ' + empresa.toUpperCase() + ' copiado!';
+        setTimeout(() => { feedback.style.display = 'none'; }, 2000);
+    });
+}
+
+// ============================================================
 // UTILITÁRIOS
 // ============================================================
 function escapeHtml(text) {
