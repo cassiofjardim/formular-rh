@@ -17,6 +17,19 @@ let filteredCadastros = [];
 let selectedIndex = -1;
 let isEditMode = false;
 
+// Buscar config da empresa pelo nome ou key
+function findEmpresaConfig(valor) {
+    if (!valor) return null;
+    const v = String(valor).toLowerCase().trim();
+    // Tentar por key direta (rigarr1, rigarr2...)
+    if (EMPRESAS[v]) return EMPRESAS[v];
+    // Tentar pelo nome (BIB, Rigarr, Rigarr SPON...)
+    for (const key in EMPRESAS) {
+        if (EMPRESAS[key].nome.toLowerCase() === v) return EMPRESAS[key];
+    }
+    return null;
+}
+
 // Mapeamento de colunas (ordem dos headers no Code.gs)
 const COLUMNS = [
     'timestamp', 'empresa', 'enviadoPor', 'nomeCompleto', 'telefone', 'dataNascimento',
@@ -203,10 +216,9 @@ function renderCards() {
         const isApproved = (cad.status || '').toLowerCase() === 'aprovado';
         const phone = (cad.telefone || '').replace(/\D/g, '');
         const dataNasc = formatDate(cad.dataNascimento);
-        const empresaKey = (cad.empresa || '').toLowerCase();
-        const empresaConfig = EMPRESAS[empresaKey];
+        const empresaConfig = findEmpresaConfig(cad.empresa);
         const primaryColor = empresaConfig ? empresaConfig.cores.primary : '#666';
-        const accentColor = empresaConfig ? empresaConfig.cores.accent : '#999';
+        const empresaNome = empresaConfig ? empresaConfig.nome : (cad.empresa || '');
 
         // Iniciais do nome para o avatar
         const nomes = (cad.nomeCompleto || 'S N').split(' ');
@@ -225,7 +237,7 @@ function renderCards() {
                         <div class="card-title">${escapeHtml(cad.nomeCompleto || 'Sem nome')}</div>
                         <div class="card-subtitle">${escapeHtml(cad.cidadeEstado || '')}${cad.bairro ? ' - ' + escapeHtml(cad.bairro) : ''}</div>
                     </div>
-                    <span class="card-empresa" style="background:${primaryColor};">${escapeHtml(cad.empresa || '')}</span>
+                    <span class="card-empresa" style="background:${primaryColor};">${escapeHtml(empresaNome)}</span>
                 </div>
                 <div class="card-body">
                     <div class="card-body-item">
@@ -278,8 +290,9 @@ function filterCards() {
             (statusFilter === 'aprovado' && status === 'aprovado') ||
             (statusFilter === 'pendente' && status !== 'aprovado');
 
+        const cadEmpresaConfig = findEmpresaConfig(cad.empresa);
         const matchEmpresa = !empresaFilter ||
-            (cad.empresa || '').toLowerCase() === empresaFilter.toLowerCase();
+            (cadEmpresaConfig && cadEmpresaConfig.id.toLowerCase() === empresaFilter.toLowerCase());
 
         return matchSearch && matchStatus && matchEmpresa;
     });
