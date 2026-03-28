@@ -97,12 +97,23 @@ function aplicarTemaEmpresa(empresa) {
     document.title = 'Checklist Admissional - ' + empresa.nome;
 
     // Tema especial para BIB (background vinho)
-    const loginScreen = document.querySelector('.login-screen');
-    if (loginScreen && empresa.id === 'rigarr2') {
-        loginScreen.style.background = 'linear-gradient(135deg, #6B1A3A 0%, #4a1028 100%)';
-        const loginCard = document.querySelector('.login-card');
-        if (loginCard) {
-            loginCard.style.background = 'rgba(255,255,255,0.95)';
+    if (empresa.id === 'rigarr2') {
+        const loginScreen = document.querySelector('.login-screen');
+        if (loginScreen) {
+            loginScreen.style.background = 'linear-gradient(135deg, #6B1A3A 0%, #4a1028 100%)';
+            const loginCard = document.querySelector('.login-card');
+            if (loginCard) {
+                loginCard.style.background = 'rgba(255,255,255,0.95)';
+            }
         }
+        // Background suave vinho no formulário
+        const appForm = document.querySelector('.app-form');
+        if (appForm) {
+            appForm.style.background = 'linear-gradient(180deg, #f5e6ec 0%, #f0dce4 100%)';
+        }
+        // Barra de seções com tom vinho suave
+        document.querySelectorAll('.section-title').forEach(el => {
+            el.style.borderBottomColor = '#D4A574';
+        });
     }
 }

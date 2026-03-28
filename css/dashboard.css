@@ -208,14 +208,14 @@
     border-top: 1px solid #f0f0f0;
 }
 
-.card-whatsapp {
-    color: #25d366;
+.card-chatwoot {
+    color: #1f93ff;
     font-size: 0.75rem;
     font-weight: 600;
     text-decoration: none;
 }
 
-.card-whatsapp:hover {
+.card-chatwoot:hover {
     text-decoration: underline;
 }
 
@@ -360,12 +360,12 @@
     background: var(--white);
 }
 
-.btn-whatsapp {
+.btn-chatwoot {
     display: inline-flex;
     align-items: center;
     gap: 8px;
     padding: 10px 20px;
-    background: #25d366;
+    background: #1f93ff;
     color: var(--white);
     border: none;
     border-radius: var(--radius);
@@ -377,8 +377,8 @@
     letter-spacing: 0.3px;
 }
 
-.btn-whatsapp:hover {
-    background: #1da855;
+.btn-chatwoot:hover {
+    background: #1a7de0;
 }
 
 .btn-aprovar {

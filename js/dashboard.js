@@ -227,7 +227,7 @@ function renderCards() {
                     </div>
                 </div>
                 <div class="card-footer">
-                    <a href="https://wa.me/55${phone}" target="_blank" class="card-whatsapp" onclick="event.stopPropagation();">WhatsApp</a>
+                    <a href="#" target="_blank" class="card-chatwoot" onclick="event.stopPropagation();">Chatwoot</a>
                     ${isApproved
                         ? '<span class="card-status aprovado-badge">Aprovado</span>'
                         : '<span class="card-status pendente-badge">Pendente</span>'}
@@ -318,9 +318,8 @@ function openDetail(index) {
 
     body.innerHTML = html;
 
-    // WhatsApp
-    const phone = (cad.telefone || '').replace(/\D/g, '');
-    document.getElementById('btnWhatsapp').href = 'https://wa.me/55' + phone;
+    // Chatwoot
+    document.getElementById('btnChatwoot').href = '#';
 
     // Aprovar
     const btnAprovar = document.getElementById('btnAprovar');
