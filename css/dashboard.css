@@ -345,6 +345,68 @@
     color: #c62828;
 }
 
+.card-time {
+    font-size: 0.72rem;
+    color: #888;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    white-space: nowrap;
+}
+
+/* ===== SEÇÃO APROVADOS ===== */
+.aprovados-section {
+    padding: 20px;
+}
+
+.aprovados-header {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.aprovados-header .search-box {
+    flex: 1;
+    min-width: 200px;
+}
+
+.aprovados-header .search-box input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.aprovados-header .search-box input:focus {
+    border-color: #2e7d32;
+}
+
+.aprovado-card {
+    opacity: 0.85;
+    transition: opacity 0.2s;
+}
+
+.aprovado-card:hover {
+    opacity: 1;
+}
+
+.aprovado-badge-lg {
+    background: #e8f5e9;
+    color: #2e7d32;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-align: center;
+    width: 100%;
+    display: block;
+}
+
 /* ===== DETAIL PANEL (overlay, não comprime os cards) ===== */
 .detail-panel {
     position: fixed;

@@ -172,15 +172,20 @@ function getCadastros() {
   const lastCol = sheet.getLastColumn();
   const allData = sheet.getRange(2, 1, lastRow - 1, lastCol).getValues();
 
-  // Filtrar no servidor: excluir aprovados e retornar só pendentes
+  // Separar aprovados dos pendentes/incompletos
   const headers = sheet.getRange(1, 1, 1, lastCol).getValues()[0];
   const statusCol = headers.indexOf('Status');
-  const data = statusCol >= 0
-    ? allData.filter(row => String(row[statusCol]).toLowerCase() !== 'aprovado')
-    : allData;
+
+  let pendentes = allData;
+  let aprovados = [];
+
+  if (statusCol >= 0) {
+    pendentes = allData.filter(row => String(row[statusCol]).toLowerCase() !== 'aprovado');
+    aprovados = allData.filter(row => String(row[statusCol]).toLowerCase() === 'aprovado');
+  }
 
   return ContentService
-    .createTextOutput(JSON.stringify({ status: 'ok', data: data }))
+    .createTextOutput(JSON.stringify({ status: 'ok', data: pendentes, aprovados: aprovados }))
     .setMimeType(ContentService.MimeType.JSON);
 }
 

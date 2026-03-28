@@ -14,8 +14,11 @@ const CONFIG = {
 let currentUser = null;
 let cadastros = [];
 let filteredCadastros = [];
+let aprovados = [];
+let filteredAprovados = [];
 let selectedIndex = -1;
 let isEditMode = false;
+let currentSection = 'cadastros'; // 'cadastros', 'aprovados', 'links'
 
 // Buscar config da empresa pelo nome, key ou nomeCompleto
 function findEmpresaConfig(valor) {
@@ -165,8 +168,22 @@ async function loadCadastros() {
         const response = await fetch(CONFIG.APPS_SCRIPT_URL + '?action=getCadastros');
         const result = await response.json();
 
-        if (result.status === 'ok' && result.data && result.data.length > 0) {
-            cadastros = result.data.map((row, index) => {
+        if (result.status === 'ok' && (result.data.length > 0 || (result.aprovados && result.aprovados.length > 0))) {
+            // Mapear todos os dados (pendentes + incompletos)
+            const allRows = result.data || [];
+            const allAprovados = result.aprovados || [];
+
+            // Mapear aprovados
+            aprovados = allAprovados.map((row, index) => {
+                const obj = { _row: index + 2, _isAprovado: true };
+                COLUMNS.forEach((col, i) => {
+                    obj[col] = row[i] || '';
+                });
+                return obj;
+            });
+            filteredAprovados = [...aprovados];
+
+            cadastros = allRows.map((row, index) => {
                 const obj = { _row: index + 2 };
                 COLUMNS.forEach((col, i) => {
                     obj[col] = row[i] || '';
@@ -207,10 +224,17 @@ async function loadCadastros() {
             filteredCadastros = [...cadastros];
             renderCards();
             loading.style.display = 'none';
-            content.style.display = 'flex';
+            if (currentSection === 'aprovados') {
+                content.style.display = 'none';
+                document.getElementById('aprovadosSection').style.display = 'block';
+                renderAprovados();
+            } else {
+                content.style.display = cadastros.length > 0 ? 'flex' : 'none';
+                if (cadastros.length === 0) empty.style.display = 'flex';
+            }
         } else {
             loading.style.display = 'none';
-            empty.style.display = 'flex';
+            if (currentSection === 'cadastros') empty.style.display = 'flex';
         }
     } catch (error) {
         console.error('Erro ao carregar:', error);
@@ -245,6 +269,7 @@ function renderCards() {
         // Iniciais do nome para o avatar
         const nomes = (cad.nomeCompleto || 'S N').split(' ');
         const iniciais = (nomes[0][0] + (nomes.length > 1 ? nomes[nomes.length - 1][0] : '')).toUpperCase();
+        const tempoEnvio = timeAgo(cad.timestamp);
 
         const card = document.createElement('div');
         card.className = 'card' + (index === selectedIndex ? ' active' : '');
@@ -280,7 +305,7 @@ function renderCards() {
                     </div>
                 </div>
                 <div class="card-footer">
-                    <a href="#" target="_blank" class="card-chatwoot" onclick="event.stopPropagation();">Enviar Chatwoot</a>
+                    ${tempoEnvio ? '<span class="card-time" title="' + escapeHtml(cad.timestamp) + '">&#128337; ' + tempoEnvio + '</span>' : ''}
                     ${isApproved
                         ? '<span class="card-status aprovado-badge">Aprovado</span>'
                         : isIncompleto
@@ -718,22 +743,176 @@ async function aprovarCadastro() {
 // ============================================================
 // NAVEGAÇÃO ENTRE SEÇÕES
 // ============================================================
-function mostrarLinks() {
+// ============================================================
+// RENDERIZAR CARDS APROVADOS
+// ============================================================
+function renderAprovados() {
+    const grid = document.getElementById('aprovadosGrid');
+    if (!grid) return;
+    grid.innerHTML = '';
+
+    const list = filteredAprovados;
+
+    if (list.length === 0) {
+        grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1;"><div class="empty-icon">&#9989;</div><h3>Nenhum cadastro aprovado</h3><p>Cadastros aprovados aparecerão aqui.</p></div>';
+        return;
+    }
+
+    list.forEach((cad, index) => {
+        const empresaConfig = findEmpresaConfig(cad.empresa);
+        const primaryColor = empresaConfig ? empresaConfig.cores.primary : '#666';
+        const empresaNome = empresaConfig ? empresaConfig.nome : (cad.empresa || '');
+        const nomes = (cad.nomeCompleto || 'S N').split(' ');
+        const iniciais = (nomes[0][0] + (nomes.length > 1 ? nomes[nomes.length - 1][0] : '')).toUpperCase();
+        const tempoEnvio = timeAgo(cad.timestamp);
+        const dataNasc = formatDate(cad.dataNascimento);
+
+        const card = document.createElement('div');
+        card.className = 'card aprovado-card';
+        card.style.borderLeft = '3px solid #2e7d32';
+        card.onclick = () => openAprovadoDetail(index);
+
+        card.innerHTML = `
+            <div class="card-inner">
+                <div class="card-header">
+                    <div class="card-avatar" style="background:${primaryColor};">${iniciais}</div>
+                    <div class="card-header-info">
+                        <div class="card-title">${escapeHtml(cad.nomeCompleto || 'Sem nome')}</div>
+                        <div class="card-subtitle">${escapeHtml(cad.cidadeEstado || '')}${cad.bairro ? ' - ' + escapeHtml(cad.bairro) : ''}</div>
+                    </div>
+                    <span class="card-empresa" style="background:${primaryColor};">${escapeHtml(empresaNome)}</span>
+                </div>
+                <div class="card-body">
+                    <div class="card-body-item">
+                        <span class="card-body-label">CPF</span>
+                        <span class="card-body-value">${escapeHtml(cad.cpf || '-')}</span>
+                    </div>
+                    <div class="card-body-item">
+                        <span class="card-body-label">Telefone</span>
+                        <span class="card-body-value">${escapeHtml(cad.telefone || '-')}</span>
+                    </div>
+                    <div class="card-body-item">
+                        <span class="card-body-label">Nascimento</span>
+                        <span class="card-body-value">${dataNasc || '-'}</span>
+                    </div>
+                    <div class="card-body-item">
+                        <span class="card-body-label">Escolaridade</span>
+                        <span class="card-body-value">${escapeHtml(cad.escolaridade || '-')}</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    ${tempoEnvio ? '<span class="card-time" title="' + escapeHtml(cad.timestamp) + '">&#128337; ' + tempoEnvio + '</span>' : ''}
+                    <span class="card-status aprovado-badge">Aprovado</span>
+                </div>
+            </div>
+        `;
+
+        grid.appendChild(card);
+    });
+}
+
+function openAprovadoDetail(index) {
+    const cad = filteredAprovados[index];
+    if (!cad) return;
+
+    const panel = document.getElementById('aprovadoDetailPanel');
+    const body = document.getElementById('aprovadoDetailBody');
+    document.getElementById('aprovadoDetailName').textContent = cad.nomeCompleto || 'Sem nome';
+
+    let html = '';
+    html += '<div class="detail-section-title">Dados do Colaborador</div>';
+    const fields = [
+        'nomeCompleto', 'telefone', 'dataNascimento', 'sexo', 'estadoCivil',
+        'nomePai', 'nomeMae', 'rg', 'cpf', 'motorista', 'pis',
+        'emailColaborador', 'endereco', 'bairro', 'cidadeEstado',
+        'escolaridade', 'contaItau', 'filhos', 'documentoEtnia', 'valeTransporte', 'declaracao'
+    ];
+    fields.forEach(key => {
+        const value = cad[key];
+        if (!value) return;
+        let displayValue = value;
+        if (key === 'dataNascimento') displayValue = formatDate(value);
+        html += `<div class="detail-field"><div class="detail-label">${escapeHtml(LABELS[key] || key)}</div><div class="detail-value">${escapeHtml(displayValue)}</div></div>`;
+    });
+
+    html += '<div class="detail-section-title">Documentos</div>';
+    const docFields = ['linkReservista', 'linkCasamento', 'linkCnh', 'linkPis', 'linkResidencia', 'linkEscolaridade', 'linkCtps', 'linkCarteira', 'linkFoto', 'linkFilhos', 'linkPasta'];
+    docFields.forEach(key => {
+        const value = cad[key];
+        if (!value) return;
+        let fileHtml = '';
+        if (value.includes('|')) {
+            const links = value.split('|').map(l => l.trim()).filter(l => l);
+            fileHtml = links.map((l, i) => `<a href="${escapeHtml(l)}" target="_blank" class="file-link-item">&#128196; Arquivo ${i + 1}</a>`).join(' ');
+        } else {
+            fileHtml = `<a href="${escapeHtml(value)}" target="_blank" class="file-link-item">&#128196; Ver arquivo</a>`;
+        }
+        html += `<div class="detail-field"><div class="detail-label">${escapeHtml(LABELS[key] || key)}</div><div class="detail-value detail-file">${fileHtml}</div></div>`;
+    });
+
+    body.innerHTML = html;
+    panel.style.display = 'flex';
+}
+
+function closeAprovadoDetail() {
+    document.getElementById('aprovadoDetailPanel').style.display = 'none';
+}
+
+function filterAprovadosCards() {
+    const search = document.getElementById('searchAprovados') ? document.getElementById('searchAprovados').value.toLowerCase().trim() : '';
+    const empresaFilter = document.getElementById('filterEmpresaAprovados') ? document.getElementById('filterEmpresaAprovados').value : '';
+
+    filteredAprovados = aprovados.filter(cad => {
+        const matchSearch = !search ||
+            (cad.nomeCompleto || '').toLowerCase().includes(search) ||
+            (cad.cpf || '').includes(search) ||
+            (cad.telefone || '').includes(search);
+        const cadEmpresaConfig = findEmpresaConfig(cad.empresa);
+        const matchEmpresa = !empresaFilter ||
+            (cadEmpresaConfig && cadEmpresaConfig.id.toLowerCase() === empresaFilter.toLowerCase());
+        return matchSearch && matchEmpresa;
+    });
+
+    renderAprovados();
+}
+
+// ============================================================
+// NAVEGAÇÃO - MOSTRAR APROVADOS
+// ============================================================
+function mostrarAprovados() {
+    currentSection = 'aprovados';
     document.getElementById('contentArea').style.display = 'none';
     document.getElementById('loadingState').style.display = 'none';
     document.getElementById('emptyState').style.display = 'none';
+    document.getElementById('linksSection').style.display = 'none';
+    document.getElementById('aprovadosSection').style.display = 'block';
+
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.querySelectorAll('.nav-item')[1].classList.add('active');
+
+    document.querySelector('.top-bar h2').textContent = 'Formulários Aprovados';
+
+    renderAprovados();
+}
+
+function mostrarLinks() {
+    currentSection = 'links';
+    document.getElementById('contentArea').style.display = 'none';
+    document.getElementById('loadingState').style.display = 'none';
+    document.getElementById('emptyState').style.display = 'none';
+    document.getElementById('aprovadosSection').style.display = 'none';
     document.getElementById('linksSection').style.display = 'block';
 
-    // Atualizar nav ativo
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    document.querySelectorAll('.nav-item')[2].classList.add('active');
+    document.querySelectorAll('.nav-item')[3].classList.add('active');
 
-    // Atualizar título
     document.querySelector('.top-bar h2').textContent = 'Links dos Formulários';
 }
 
 function mostrarCadastros() {
+    currentSection = 'cadastros';
     document.getElementById('linksSection').style.display = 'none';
+    document.getElementById('aprovadosSection').style.display = 'none';
     document.getElementById('contentArea').style.display = 'flex';
 
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
@@ -773,6 +952,36 @@ function copiarLink(empresa) {
 // ============================================================
 // UTILITÁRIOS
 // ============================================================
+function timeAgo(timestamp) {
+    if (!timestamp) return '';
+    let date;
+    // Formato "dd/mm/yyyy hh:mm:ss"
+    if (typeof timestamp === 'string' && timestamp.match(/^\d{2}\/\d{2}\/\d{4}/)) {
+        const parts = timestamp.match(/(\d{2})\/(\d{2})\/(\d{4})\s*(\d{2}):(\d{2}):?(\d{2})?/);
+        if (parts) {
+            date = new Date(parts[3], parts[2] - 1, parts[1], parts[4], parts[5], parts[6] || 0);
+        }
+    }
+    if (!date || isNaN(date.getTime())) {
+        date = new Date(timestamp);
+    }
+    if (isNaN(date.getTime())) return '';
+
+    const now = new Date();
+    const diffMs = now - date;
+    const diffMin = Math.floor(diffMs / 60000);
+    const diffHrs = Math.floor(diffMs / 3600000);
+    const diffDays = Math.floor(diffMs / 86400000);
+
+    if (diffMin < 1) return 'Agora mesmo';
+    if (diffMin < 60) return 'Há ' + diffMin + ' min';
+    if (diffHrs < 24) return 'Há ' + diffHrs + 'h';
+    if (diffDays === 1) return 'Há 1 dia';
+    if (diffDays < 30) return 'Há ' + diffDays + ' dias';
+    if (diffDays < 365) return 'Há ' + Math.floor(diffDays / 30) + ' meses';
+    return 'Há ' + Math.floor(diffDays / 365) + ' anos';
+}
+
 function escapeHtml(text) {
     const div = document.createElement('div');
     div.textContent = text;
