@@ -17,15 +17,24 @@ let filteredCadastros = [];
 let selectedIndex = -1;
 let isEditMode = false;
 
-// Buscar config da empresa pelo nome ou key
+// Buscar config da empresa pelo nome, key ou nomeCompleto
 function findEmpresaConfig(valor) {
     if (!valor) return null;
     const v = String(valor).toLowerCase().trim();
     // Tentar por key direta (rigarr1, rigarr2...)
     if (EMPRESAS[v]) return EMPRESAS[v];
-    // Tentar pelo nome (BIB, Rigarr, Rigarr SPON...)
+    // Tentar pelo nome, nomeCompleto ou id
     for (const key in EMPRESAS) {
-        if (EMPRESAS[key].nome.toLowerCase() === v) return EMPRESAS[key];
+        const emp = EMPRESAS[key];
+        if (emp.nome.toLowerCase() === v ||
+            emp.nomeCompleto.toLowerCase() === v ||
+            emp.id.toLowerCase() === v) return emp;
+    }
+    // Tentar match parcial (ex: "Rigarr" pode bater com "rigarr1")
+    for (const key in EMPRESAS) {
+        if (v.includes(EMPRESAS[key].nome.toLowerCase()) || EMPRESAS[key].nome.toLowerCase().includes(v)) {
+            return EMPRESAS[key];
+        }
     }
     return null;
 }
