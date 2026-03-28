@@ -172,6 +172,9 @@ function getCadastros() {
   const lastCol = sheet.getLastColumn();
   const allData = sheet.getRange(2, 1, lastRow - 1, lastCol).getValues();
 
+  // Adicionar o número real da linha na planilha como último elemento
+  allData.forEach((row, i) => row.push(i + 2));
+
   // Separar aprovados dos pendentes/incompletos
   const headers = sheet.getRange(1, 1, 1, lastCol).getValues()[0];
   const statusCol = headers.indexOf('Status');

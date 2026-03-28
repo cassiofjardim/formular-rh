@@ -173,9 +173,9 @@ async function loadCadastros() {
             const allRows = result.data || [];
             const allAprovados = result.aprovados || [];
 
-            // Mapear aprovados
-            aprovados = allAprovados.map((row, index) => {
-                const obj = { _row: index + 2, _isAprovado: true };
+            // Mapear aprovados (último elemento de cada row = número real da linha na planilha)
+            aprovados = allAprovados.map((row) => {
+                const obj = { _row: row[row.length - 1], _isAprovado: true };
                 COLUMNS.forEach((col, i) => {
                     obj[col] = row[i] || '';
                 });
@@ -183,8 +183,8 @@ async function loadCadastros() {
             });
             filteredAprovados = [...aprovados];
 
-            cadastros = allRows.map((row, index) => {
-                const obj = { _row: index + 2 };
+            cadastros = allRows.map((row) => {
+                const obj = { _row: row[row.length - 1] };
                 COLUMNS.forEach((col, i) => {
                     obj[col] = row[i] || '';
                 });
