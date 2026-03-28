@@ -1,3 +1,106 @@
+/* ===== LOGIN DASHBOARD ===== */
+.login-screen-dashboard {
+    background: url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1920&q=80') center/cover no-repeat fixed;
+    position: relative;
+}
+
+.login-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(27,42,74,0.85) 0%, rgba(15,26,48,0.92) 100%);
+    z-index: 1;
+}
+
+.login-card-dashboard {
+    position: relative;
+    z-index: 2;
+    max-width: 440px !important;
+    padding: 0 !important;
+    border-radius: 16px !important;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.05) !important;
+    border: none !important;
+    backdrop-filter: blur(10px);
+    background: rgba(255,255,255,0.97) !important;
+}
+
+.login-card-top {
+    background: linear-gradient(135deg, #1B2A4A 0%, #0f1a30 100%);
+    padding: 36px 40px 28px;
+    text-align: center;
+}
+
+.login-card-top .login-logo {
+    width: 200px;
+    margin-bottom: 0;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));
+}
+
+.login-card-body {
+    padding: 32px 40px 28px;
+    text-align: center;
+}
+
+.login-card-body h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1B2A4A;
+    margin-bottom: 6px;
+}
+
+.login-subtitle {
+    font-size: 0.85rem !important;
+    color: #888 !important;
+    margin-bottom: 20px !important;
+}
+
+.login-divider {
+    width: 50px;
+    height: 3px;
+    background: #EFC030;
+    border-radius: 2px;
+    margin: 0 auto 20px;
+}
+
+.login-instruction {
+    font-size: 0.88rem !important;
+    color: #555 !important;
+    margin-bottom: 24px !important;
+    line-height: 1.5;
+}
+
+.login-card-dashboard .btn-google-dev {
+    max-width: 100% !important;
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border: 2px solid #e0e0e0;
+    transition: all 0.2s;
+}
+
+.login-card-dashboard .btn-google-dev:hover {
+    border-color: #1B2A4A;
+    background: #f8f9fa;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transform: translateY(-1px);
+}
+
+.login-card-footer {
+    background: #f8f9fa;
+    padding: 14px 40px;
+    text-align: center;
+    border-top: 1px solid #eee;
+}
+
+.login-card-footer span {
+    font-size: 0.72rem;
+    color: #aaa;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
 /* ===== TOP BAR ACTIONS ===== */
 .top-bar-actions {
     display: flex;

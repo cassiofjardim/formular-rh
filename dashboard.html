@@ -5,23 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel RH - Grupo Rigarr</title>
     <link rel="icon" href="assets/logo-grupo-rigarr.png" type="image/png">
-    <link rel="stylesheet" href="css/style.css?v=25">
-    <link rel="stylesheet" href="css/dashboard.css?v=25">
+    <link rel="stylesheet" href="css/style.css?v=26">
+    <link rel="stylesheet" href="css/dashboard.css?v=26">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <!-- TELA DE LOGIN -->
-    <div id="login-screen" class="login-screen">
-        <div class="login-card">
-            <img src="assets/logo-grupo-rigarr.png" alt="Grupo Rigarr" class="login-logo">
-            <h1>Painel RH</h1>
-            <p>Faça login com seu e-mail corporativo <strong>@rigarr.com.br</strong> para acessar o painel.</p>
-            <button id="google-signin-dev" class="btn-google-dev" onclick="devLogin()">
-                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" width="20" height="20">
-                Fazer login com Google
-            </button>
-            <p id="login-error" class="login-error" style="display:none;"></p>
+    <div id="login-screen" class="login-screen login-screen-dashboard">
+        <div class="login-overlay"></div>
+        <div class="login-card login-card-dashboard">
+            <div class="login-card-top">
+                <img src="assets/logo-grupo-rigarr.png" alt="Grupo Rigarr" class="login-logo">
+            </div>
+            <div class="login-card-body">
+                <h1>Painel RH</h1>
+                <p class="login-subtitle">Sistema de gestão de cadastros admissionais</p>
+                <div class="login-divider"></div>
+                <p class="login-instruction">Faça login com seu e-mail corporativo <strong>@rigarr.com.br</strong></p>
+                <button id="google-signin-dev" class="btn-google-dev" onclick="devLogin()">
+                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" width="22" height="22">
+                    Entrar com Google
+                </button>
+                <p id="login-error" class="login-error" style="display:none;"></p>
+            </div>
+            <div class="login-card-footer">
+                <span>Grupo Rigarr &middot; Logistics & Construction</span>
+            </div>
         </div>
     </div>
 
@@ -212,7 +222,7 @@
         </div>
     </div>
 
-    <script src="js/config-empresas.js?v=25"></script>
-    <script src="js/dashboard.js?v=25"></script>
+    <script src="js/config-empresas.js?v=26"></script>
+    <script src="js/dashboard.js?v=26"></script>
 </body>
 </html>
