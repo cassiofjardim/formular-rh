@@ -4,7 +4,7 @@
 const CONFIG = {
     DEV_MODE: true,
     GOOGLE_CLIENT_ID: 'SEU_CLIENT_ID_AQUI.apps.googleusercontent.com',
-    APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbxiOrim9WEmATzIh17WjBcmiAByCU51YgPFzDEccUM2qlWITrU0rVMwsSD3MaFt9SeM/exec',
+    APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbyfNHySmA_f8b2BtVz3XKLoKTH8zMpeTlDZFoHtbVLI2otyXxGEaReilijdCS3qMz47/exec',
     ALLOWED_DOMAIN: 'rigarr.com.br'
 };
 
