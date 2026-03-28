@@ -941,12 +941,12 @@ function mostrarFormulario(skipPush) {
     document.getElementById('emptyState').style.display = 'none';
     document.getElementById('aprovadosSection').style.display = 'none';
     document.getElementById('linksSection').style.display = 'none';
-    document.getElementById('formularioSection').style.display = 'flex';
+    document.getElementById('formularioSection').style.display = 'block';
 
     // Carregar formulário se ainda não carregou
     const iframe = document.getElementById('formularioFrame');
-    if (!iframe.src || iframe.src === window.location.href) {
-        iframe.src = 'index.html?preview=true';
+    if (!iframe.src || !iframe.src.includes('preview=true')) {
+        iframe.src = 'index.html?preview=true&t=' + Date.now();
     }
 
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));

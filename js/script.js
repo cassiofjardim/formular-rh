@@ -110,9 +110,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const loginEl = document.getElementById('login-screen');
         const appEl = document.getElementById('app');
         if (loginEl) loginEl.style.display = 'none';
-        if (appEl) appEl.style.display = 'block';
+        if (appEl) {
+            appEl.style.display = 'block';
+            appEl.style.minHeight = '100%';
+        }
         usuarioNome = 'RH Rigarr';
         usuarioEmail = 'rh@rigarr.com.br';
+        // Aplicar tema padrão
+        if (typeof detectarEmpresa === 'function' && typeof aplicarTemaEmpresa === 'function') {
+            const empresa = detectarEmpresa();
+            aplicarTemaEmpresa(empresa);
+        }
     }
     // Botões de opção
     document.querySelectorAll('.btn-option').forEach(btn => {
