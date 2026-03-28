@@ -946,7 +946,7 @@ function mostrarFormulario(skipPush) {
     // Carregar formulário se ainda não carregou
     const iframe = document.getElementById('formularioFrame');
     if (!iframe.src || iframe.src === window.location.href) {
-        iframe.src = 'index.html';
+        iframe.src = 'index.html?preview=true';
     }
 
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));

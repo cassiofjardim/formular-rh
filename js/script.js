@@ -101,9 +101,24 @@ async function salvarRascunho() {
 }
 
 // ============================================================
+// MODO PREVIEW (quando carregado dentro do dashboard)
+// ============================================================
+function checkPreviewMode() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('preview') === 'true') {
+        // Pular login e mostrar formulário direto
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('app').style.display = 'block';
+        usuarioNome = 'RH Rigarr';
+        usuarioEmail = 'rh@rigarr.com.br';
+    }
+}
+
+// ============================================================
 // BOTÕES DE OPÇÃO (radio buttons customizados)
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
+    checkPreviewMode();
     // Botões de opção
     document.querySelectorAll('.btn-option').forEach(btn => {
         btn.addEventListener('click', () => {
