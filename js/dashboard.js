@@ -188,7 +188,9 @@ async function loadCadastros() {
     const empty = document.getElementById('emptyState');
     const content = document.getElementById('contentArea');
 
-    loading.style.display = 'flex';
+    if (currentSection !== 'aprovados') {
+        loading.style.display = 'flex';
+    }
     empty.style.display = 'none';
     content.style.display = 'none';
 
@@ -916,18 +918,16 @@ function mostrarAprovados(skipPush) {
     currentSection = 'aprovados';
     if (!skipPush) history.pushState(null, '', '#aprovados');
 
-    document.querySelector('.top-bar').style.display = '';
     document.getElementById('contentArea').style.display = 'none';
     document.getElementById('loadingState').style.display = 'none';
     document.getElementById('emptyState').style.display = 'none';
     document.getElementById('linksSection').style.display = 'none';
-    if (document.getElementById('formularioSection')) document.getElementById('formularioSection').style.display = 'none';
+    document.getElementById('formularioSection').style.display = 'none';
+    document.querySelector('.top-bar').style.display = 'none';
     document.getElementById('aprovadosSection').style.display = 'block';
 
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
     document.querySelectorAll('.nav-item')[1].classList.add('active');
-
-    document.querySelector('.top-bar h2').textContent = 'Formulários Aprovados';
 
     // Recarregar dados do servidor para garantir lista atualizada
     loadCadastros();
