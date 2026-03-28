@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200">
-  <rect width="800" height="200" rx="12" fill="#5C1A2A"/>
+  <rect width="800" height="200" rx="12" fill="#1A5C3A"/>
   <rect width="800" height="200" rx="12" fill="url(#g3)" opacity="0.15"/>
   <defs>
     <linearGradient id="g3" x1="0" y1="0" x2="1" y2="1">
@@ -8,9 +8,9 @@
     </linearGradient>
   </defs>
   <rect x="200" y="40" width="80" height="80" rx="14" fill="rgba(255,255,255,0.15)"/>
-  <text x="240" y="95" font-family="Arial Black, Arial" font-weight="900" font-size="42" fill="#9A9AA8" text-anchor="middle">R3</text>
+  <text x="240" y="95" font-family="Arial Black, Arial" font-weight="900" font-size="42" fill="#6BC090" text-anchor="middle">R3</text>
   <text x="300" y="92" font-family="Arial Black, Arial" font-weight="900" font-size="48" fill="#fff" letter-spacing="3">RIGARR</text>
-  <text x="620" y="92" font-family="Arial Black, Arial" font-weight="900" font-size="48" fill="#9A9AA8" letter-spacing="2">SPON</text>
-  <rect x="230" y="120" width="340" height="2" fill="#9A9AA8" opacity="0.5"/>
+  <text x="620" y="92" font-family="Arial Black, Arial" font-weight="900" font-size="48" fill="#6BC090" letter-spacing="2">SPON</text>
+  <rect x="230" y="120" width="340" height="2" fill="#6BC090" opacity="0.5"/>
   <text x="400" y="150" font-family="Arial, sans-serif" font-weight="600" font-size="16" fill="rgba(255,255,255,0.6)" text-anchor="middle" letter-spacing="6">ENGINEERING</text>
 </svg>

@@ -39,10 +39,10 @@ const EMPRESAS = {
         logo: 'assets/logo-rigarr3.svg',
         banner: 'assets/banner-rigarr3.svg',
         cores: {
-            primary: '#5C1A2A',
-            primaryLight: '#7d2a3d',
-            accent: '#9A9AA8',
-            accentHover: '#808090'
+            primary: '#1A5C3A',
+            primaryLight: '#2a7d4d',
+            accent: '#6BC090',
+            accentHover: '#55a87a'
         }
     },
     rigarr4: {
@@ -110,7 +110,7 @@ function aplicarTemaEmpresa(empresa) {
     const temas = {
         rigarr1: { bg: '#f0f2f5', loginBg: 'linear-gradient(135deg, #1B2A4A 0%, #0f1a30 100%)', sectionColor: '#EFC030' },
         rigarr2: { bg: '#f9f0f3', loginBg: 'linear-gradient(135deg, #6B1A3A 0%, #4a1028 100%)', sectionColor: '#D4A574' },
-        rigarr3: { bg: '#f5f0f2', loginBg: 'linear-gradient(135deg, #5C1A2A 0%, #3d1019 100%)', sectionColor: '#9A9AA8' },
+        rigarr3: { bg: '#f0f5f2', loginBg: 'linear-gradient(135deg, #1A5C3A 0%, #103d25 100%)', sectionColor: '#6BC090' },
         rigarr4: { bg: '#f2f0f7', loginBg: 'linear-gradient(135deg, #2A1A4A 0%, #1a1030 100%)', sectionColor: '#3CC0B0' },
         rigarr5: { bg: '#f0f5f6', loginBg: 'linear-gradient(135deg, #0A3D4A 0%, #062830 100%)', sectionColor: '#E85A5A' }
     };
