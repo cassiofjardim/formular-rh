@@ -952,7 +952,7 @@ function mostrarFormulario(skipPush) {
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
     document.querySelectorAll('.nav-item')[2].classList.add('active');
 
-    document.querySelector('.top-bar h2').textContent = 'Novo Cadastro';
+    document.querySelector('.top-bar h2').textContent = 'Formulário';
 }
 
 function mostrarLinks(skipPush) {
