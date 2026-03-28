@@ -407,52 +407,6 @@
     display: block;
 }
 
-/* ===== SEÇÃO FORMULÁRIO EMBUTIDO ===== */
-.formulario-section {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    height: calc(100vh - 60px);
-}
-
-.formulario-header {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 16px;
-    flex-wrap: wrap;
-}
-
-.formulario-header h3 {
-    margin: 0;
-    font-size: 0.95rem;
-    color: #555;
-    font-weight: 500;
-}
-
-.formulario-empresa-select select {
-    padding: 10px 14px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 0.9rem;
-    outline: none;
-    cursor: pointer;
-    min-width: 200px;
-}
-
-.formulario-empresa-select select:focus {
-    border-color: var(--primary, #C9A84C);
-}
-
-.formulario-iframe {
-    flex: 1;
-    width: 100%;
-    border: 1px solid #eee;
-    border-radius: 12px;
-    background: #fafafa;
-    min-height: 0;
-}
-
 /* ===== DETAIL PANEL (overlay, não comprime os cards) ===== */
 .detail-panel {
     position: fixed;

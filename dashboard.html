@@ -202,22 +202,9 @@
                 <div id="copyFeedback" class="copy-feedback-float" style="display:none;">Link copiado!</div>
             </div>
 
-            <!-- SEÇÃO: NOVO CADASTRO (formulário embutido) -->
-            <div id="formularioSection" class="formulario-section" style="display:none;">
-                <div class="formulario-header">
-                    <h3>Selecione a empresa para abrir o formulário:</h3>
-                    <div class="formulario-empresa-select">
-                        <select id="formularioEmpresa" onchange="carregarFormulario()">
-                            <option value="">Escolha a empresa...</option>
-                            <option value="rigarr1">Rigarr</option>
-                            <option value="rigarr2">BIB</option>
-                            <option value="rigarr3">Rigarr SPON</option>
-                            <option value="rigarr4">Rigarr MGON</option>
-                            <option value="rigarr5">Rigarr 5</option>
-                        </select>
-                    </div>
-                </div>
-                <iframe id="formularioFrame" class="formulario-iframe" src="" frameborder="0"></iframe>
+            <!-- SEÇÃO: NOVO CADASTRO -->
+            <div id="formularioSection" style="display:none; flex:1; height:calc(100vh - 60px);">
+                <iframe id="formularioFrame" src="" style="width:100%; height:100%; border:none; background:#faf8f0;"></iframe>
             </div>
 
             <!-- SEÇÃO: FORMULÁRIOS APROVADOS -->

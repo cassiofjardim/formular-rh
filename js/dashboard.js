@@ -920,7 +920,7 @@ function mostrarAprovados(skipPush) {
     document.getElementById('loadingState').style.display = 'none';
     document.getElementById('emptyState').style.display = 'none';
     document.getElementById('linksSection').style.display = 'none';
-    document.getElementById('formularioSection').style.display = 'none';
+    if (document.getElementById('formularioSection')) document.getElementById('formularioSection').style.display = 'none';
     document.getElementById('aprovadosSection').style.display = 'block';
 
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
@@ -941,22 +941,18 @@ function mostrarFormulario(skipPush) {
     document.getElementById('emptyState').style.display = 'none';
     document.getElementById('aprovadosSection').style.display = 'none';
     document.getElementById('linksSection').style.display = 'none';
-    document.getElementById('formularioSection').style.display = 'block';
+    document.getElementById('formularioSection').style.display = 'flex';
+
+    // Carregar formulário se ainda não carregou
+    const iframe = document.getElementById('formularioFrame');
+    if (!iframe.src || iframe.src === window.location.href) {
+        iframe.src = 'index.html';
+    }
 
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
     document.querySelectorAll('.nav-item')[2].classList.add('active');
 
     document.querySelector('.top-bar h2').textContent = 'Novo Cadastro';
-}
-
-function carregarFormulario() {
-    const empresa = document.getElementById('formularioEmpresa').value;
-    const iframe = document.getElementById('formularioFrame');
-    if (empresa) {
-        iframe.src = 'index.html?empresa=' + empresa;
-    } else {
-        iframe.src = '';
-    }
 }
 
 function mostrarLinks(skipPush) {
@@ -971,7 +967,7 @@ function mostrarLinks(skipPush) {
     document.getElementById('linksSection').style.display = 'block';
 
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    document.querySelectorAll('.nav-item')[4].classList.add('active');
+    document.querySelectorAll('.nav-item')[3].classList.add('active');
 
     document.querySelector('.top-bar h2').textContent = 'Links dos Formulários';
 }
