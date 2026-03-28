@@ -916,6 +916,7 @@ function mostrarAprovados(skipPush) {
     currentSection = 'aprovados';
     if (!skipPush) history.pushState(null, '', '#aprovados');
 
+    document.querySelector('.top-bar').style.display = '';
     document.getElementById('contentArea').style.display = 'none';
     document.getElementById('loadingState').style.display = 'none';
     document.getElementById('emptyState').style.display = 'none';
@@ -941,7 +942,10 @@ function mostrarFormulario(skipPush) {
     document.getElementById('emptyState').style.display = 'none';
     document.getElementById('aprovadosSection').style.display = 'none';
     document.getElementById('linksSection').style.display = 'none';
+    document.querySelector('.top-bar').style.display = 'none';
     document.getElementById('formularioSection').style.display = 'block';
+    document.getElementById('formularioSection').style.height = 'calc(100vh)';
+
 
     // Carregar formulário se ainda não carregou
     const iframe = document.getElementById('formularioFrame');
@@ -951,14 +955,13 @@ function mostrarFormulario(skipPush) {
 
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
     document.querySelectorAll('.nav-item')[2].classList.add('active');
-
-    document.querySelector('.top-bar h2').textContent = 'Formulário';
 }
 
 function mostrarLinks(skipPush) {
     currentSection = 'links';
     if (!skipPush) history.pushState(null, '', '#links');
 
+    document.querySelector('.top-bar').style.display = '';
     document.getElementById('contentArea').style.display = 'none';
     document.getElementById('loadingState').style.display = 'none';
     document.getElementById('emptyState').style.display = 'none';
@@ -976,6 +979,7 @@ function mostrarCadastros(skipPush) {
     currentSection = 'cadastros';
     if (!skipPush) history.pushState(null, '', '#cadastros');
 
+    document.querySelector('.top-bar').style.display = '';
     document.getElementById('linksSection').style.display = 'none';
     document.getElementById('aprovadosSection').style.display = 'none';
     document.getElementById('formularioSection').style.display = 'none';
